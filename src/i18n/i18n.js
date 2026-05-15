@@ -10,16 +10,12 @@ i18n
   .use(initReactI18next)
   .init({
     resources: {
-      ar: {
-        translation: ar,
-      },
-      en: {
-        translation: en,
-      },
+      ar: { translation: ar },
+      en: { translation: en },
     },
-    fallbackLng: "ar",
+    fallbackLng: "ar", 
     detection: {
-      order: ['localStorage', 'htmlTag'],
+      order: ['localStorage'], 
       caches: ['localStorage'],
     },
     interpolation: {
