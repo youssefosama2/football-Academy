@@ -1,0 +1,19 @@
+.hero {
+  min-height: 100vh;
+  background: url("public/assets/img/front-view-football-trainer-teaching-kids-field_23-2149742029.webp") center top/cover;
+  position: relative;
+  padding-top: 100px;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+}
+.hero .container {
+  position: relative;
+  z-index: 2;
+}
+.hero-stats h4 {
+  font-weight: bold;
+}
