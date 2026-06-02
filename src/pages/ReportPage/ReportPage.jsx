@@ -1,6 +1,6 @@
 import React from "react";
 import "./ReportPage.css";
-import { ReportProvider, useReport } from "../../Context/ReportContext";
+import { ReportProvider, useReport } from "../../context/ReportContext";
 import PlayerInfoCard from "../../components/PlayerReport/PlayerInfoCard/PlayerInfoCard";
 import QuickStatsCards from "../../components/PlayerReport/QuickStatsCards/QuickStatsCards";
 import RadarSkillsChart from "../../components/PlayerReport/RadarSkillsChart/RadarSkillsChart";
