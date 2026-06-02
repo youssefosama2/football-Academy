@@ -16,7 +16,16 @@
     "players": "لاعب",
     "coaches": "مدرب",
     "championships": "بطولة",
-    "plan": "استفسار"
+    "plan": "استفسار",
+    "search": {
+      "title": "ابحث عن تقرير اللاعب",
+      "placeholder": "أدخل كود اللاعب",
+      "enterCode": "أدخل كود اللاعب",
+      "notFound": "اللاعب غير موجود",
+      "checkCode": "تأكد من كود اللاعب",
+      "error": "خطأ",
+      "failed": "تعذر البحث عن اللاعب"
+    }
   },
   "about": {
     "title": "استثمر فى مستقبل طفلك",
@@ -184,5 +193,183 @@
     "wa_age": "العمر",
     "wa_phone": "الرقم",
     "wa_plan": "الخطة"
+  },
+  "report": {
+    "page": {
+      "loadingReport": "جاري تحميل التقرير...",
+      "playerNotFound": "اللاعب غير موجود",
+      "playerNotFoundDescription": "تأكد من كود اللاعب ثم حاول مرة أخرى"
+    },
+    "playerInfo": {
+      "loading": "جاري تحميل بيانات اللاعب...",
+      "notFound": "اللاعب غير موجود",
+      "coach": "المدرب",
+      "ageCategory": "الفئة العمرية",
+      "position": "المركز",
+      "playerCode": "رقم اللاعب",
+      "years": "سنة",
+      "player": "لاعب",
+      "positions": {
+        "forward": "مهاجم",
+        "defender": "مدافع",
+        "midfielder": "خط وسط",
+        "goalkeeper": "حارس مرمى"
+      }
+    },
+    "coachNotes": {
+      "title": "ملاحظات المدرب",
+      "loading": "جاري تحميل الملاحظات...",
+      "empty": "لا توجد ملاحظات للمدرب حتى الآن."
+    },
+    "comparePlayers": {
+      "title": "مقارنة اللاعبين",
+      "loading": "جاري تحميل البيانات...",
+      "currentPlayer": "اللاعب",
+      "academyAverage": "متوسط الأكاديمية",
+      "bestScore": "أفضل تقييم",
+      "lowestScore": "أقل تقييم"
+    },
+    "evaluationsTable": {
+      "loading": "جاري تحميل التقييمات...",
+      "title": "سجل التقييمات",
+      "date": "التاريخ",
+      "coach": "المدرب",
+      "totalScore": "التقييم العام",
+      "technical": "المهارات الفنية",
+      "fitness": "اللياقة البدنية",
+      "mental": "الذكاء والانضباط",
+      "viewReport": "عرض التقرير",
+      "noEvaluations": "لا توجد تقييمات",
+      "tipLabel": "النصيحة : ",
+      "tipText": "حافظ على التدريبات المستمرة لتحسين نقاط الضعف والارتقاء بمستوى اللاعب."
+    },
+    "evolutionChart": {
+      "title": "تطور الأداء عبر الشهور",
+      "loading": "جاري تحميل البيانات...",
+      "noData": "لا توجد بيانات",
+      "technicalSkills": "المهارات الفنية",
+      "physicalFitness": "اللياقة البدنية",
+      "mentalDiscipline": "الذكاء والانضباط"
+    },
+    "overall": {
+      "title": "التقييم العام",
+      "loading": "جاري تحميل التقييم...",
+      "outOf100": "من 100",
+      "excellent": "ممتاز ⭐",
+      "veryGood": "جيد جداً 🔥",
+      "good": "جيد 👍",
+      "weak": "ضعيف ⚠️"
+    },
+    "performanceChart": {
+        "title": "تطور التقييم العام",
+        "loading": "جاري تحميل البيانات...",
+        "noData": "لا توجد تقييمات حتى الآن",
+        "score": "التقييم"
+    },
+    "quickStats": {
+        "loading": "جاري تحميل الإحصائيات...",
+        "performanceGrowth": "تطور الأداء",
+        "lastEvaluation": "آخر تقييم",
+        "bestEvaluation": "أفضل تقييم",
+        "totalEvaluations": "إجمالي التقييمات",
+        "evaluations": "تقييمات",
+        "improved": "تحسن عام",
+        "decreased": "انخفاض الأداء",
+        "noData": "لا توجد بيانات"
+    },
+    "radarSkills": {
+        "title": "أداء المهارات",
+        "loading": "جاري تحميل البيانات...",
+        "score": "التقييم",
+
+        "shooting": "التصويب",
+        "dribbling": "المراوغة",
+        "speed": "السرعة",
+        "footballIQ": "الذكاء الكروي",
+        "agility": "الرشاقة",
+        "skillPerformance": "الأداء المهاري",
+
+        "passing": "التمرير",
+        "longVision": "الرؤية والتمرير الطويل",
+        "endurance": "التحمل",
+        "decisionMaking": "اتخاذ القرار",
+        "teamwork": "العمل الجماعي",
+
+        "strength": "القوة",
+        "focus": "التركيز",
+        "discipline": "الالتزام والانضباط",
+        "balance": "الاتزان والتناسق",
+
+        "leadership": "الشخصية والقيادة"
+    },
+    "skillsOverview": {
+    "title": "تقرير الأداء التفصيلي للاعب",
+    "subtitle": "تحليل كامل لجميع مهارات اللاعب",
+
+    "technical": "المهارات الفنية",
+    "fitness": "اللياقة البدنية",
+    "mental": "الذكاء والانضباط",
+
+    "showAll": "عرض جميع الـ {{count}} مهارة",
+    "showLess": "عرض أقل",
+
+    "strengths": "نقاط القوة",
+    "weaknesses": "يحتاج تطوير",
+    "summary": "ملخص المهارات",
+
+    "loading": "جاري تحميل المهارات...",
+
+    "technicalSummary": "المهارات الفنية",
+    "fitnessSummary": "اللياقة البدنية",
+    "mentalSummary": "الذكاء والانضباط",
+
+    "excellent": "ممتاز",
+    "veryGood": "جيد جداً",
+    "good": "جيد",
+    "acceptable": "مقبول",
+    "weak": "ضعيف"
+    },
+    "skills": {
+      "receivePass": "الاستلام والتسليم",
+      "passing": "التمرير",
+      "shooting": "التصويب",
+      "dribbling": "المراوغة",
+      "vision": "الرؤية والتمرير الطويل",
+      "technicalPerformance": "الأداء المهاري",
+
+      "strength": "القوة",
+      "endurance": "التحمل",
+      "speed": "السرعة",
+      "agility": "الرشاقة",
+      "balance": "الاتزان والتناسق",
+      "coordination": "الأداء الحركي التوافقي",
+
+      "teamwork": "العمل الجماعي",
+      "decisionMaking": "اتخاذ القرار",
+      "focus": "التركيز",
+      "footballIQ": "الذكاء الكروي",
+      "discipline": "الالتزام والانضباط",
+      "leadership": "الشخصية والقيادة"
+    },
+    "actions": {
+      "home": "الرئيسية",
+      "whatsapp": "واتساب",
+      "share": "مشاركة",
+      "copyLink": "نسخ الرابط",
+
+      "shareTitle": "تقرير اللاعب",
+      "shareText": "تقرير تقييم اللاعب",
+      "shareWhatsappTitle": "⚽ تقرير اللاعب",
+
+      "linkCopied": "تم نسخ الرابط بنجاح"
+    },
+    "compare": {
+      "title": "مقارنة اللاعبين",
+      "loading": "جاري تحميل البيانات...",
+      "player": "اللاعب",
+      "academyAverage": "متوسط الأكاديمية",
+      "bestScore": "أفضل تقييم",
+      "lowestScore": "أقل تقييم"
+    }
   }
 }

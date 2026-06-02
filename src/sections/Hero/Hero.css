@@ -17,3 +17,44 @@
 .hero-stats h4 {
   font-weight: bold;
 }
+.player-search-box {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.search-input {
+  max-width: 450px;
+  min-height: 48px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+}
+
+.search-input::placeholder {
+  color: #fff;
+}
+.search-input:focus {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  box-shadow: none;
+}
+
+.btn-search-custom {
+  background-color: #2563eb !important; 
+  border: none !important;
+  border-radius: 50% !important; 
+  width: 45px !important;     
+  height: 45px !important;    
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: transform 0.2s ease !important;
+}
+
+.btn-search-custom:hover {
+  transform: scale(1.1); 
+  background-color: #1d4ed8 !important;
+}

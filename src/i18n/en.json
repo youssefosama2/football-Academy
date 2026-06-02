@@ -16,7 +16,16 @@
     "players": "Players",
     "coaches": "Coaches",
     "championships": "Championships",
-    "plan": "Inquiry"
+    "plan": "Inquiry",
+    "search": {
+      "title": "Search Player Report",
+      "placeholder": "Enter Player Code",
+      "enterCode": "Enter Player Code",
+      "notFound": "Player Not Found",
+      "checkCode": "Please check the player code",
+      "error": "Error",
+      "failed": "Unable to search for the player"
+    }
   },
   "about": {
     "title": "Invest In Your Child's Future",
@@ -186,5 +195,185 @@
     "wa_age": "Age",
     "wa_phone": "Phone",
     "wa_plan": "Plan"
+  },
+  "report": {
+    "page": {
+      "loadingReport": "Loading report...",
+      "playerNotFound": "Player not found",
+      "playerNotFoundDescription": "Please verify the player code and try again"
+    },
+    "playerInfo": {
+      "loading": "Loading player data...",
+      "notFound": "Player not found",
+      "coach": "Coach",
+      "ageCategory": "Age Category",
+      "position": "Position",
+      "playerCode": "Player Code",
+      "years": "Years",
+      "player": "Player",
+      "positions": {
+        "forward": "Forward",
+        "defender": "Defender",
+        "midfielder": "Midfielder",
+        "goalkeeper": "Goalkeeper"
+    }
+    },
+    "coachNotes": {
+      "title": "Coach Notes",
+      "loading": "Loading notes...",
+      "empty": "No coach notes available yet."
+    }, 
+      "comparePlayers": {
+      "title": "Players Comparison",
+      "loading": "Loading data...",
+      "currentPlayer": "Player",
+      "academyAverage": "Academy Average",
+      "bestScore": "Best Score",
+      "lowestScore": "Lowest Score"
+    },
+    "evaluationsTable": {
+      "loading": "Loading evaluations...",
+      "title": "Evaluation History",
+      "date": "Date",
+      "coach": "Coach",
+      "totalScore": "Overall Score",
+      "technical": "Technical Skills",
+      "fitness": "Physical Fitness",
+      "mental": "Mental & Discipline",
+      "viewReport": "View Report",
+      "noEvaluations": "No evaluations available",
+      "tipLabel": "Tip: ",
+      "tipText": "Keep training consistently to improve weaknesses and enhance the player's overall performance."
+    },
+    "evolutionChart": {
+      "title": "Performance Evolution",
+      "loading": "Loading data...",
+      "noData": "No data available",
+      "technicalSkills": "Technical Skills",
+      "physicalFitness": "Physical Fitness",
+      "mentalDiscipline": "Mental & Discipline"
+    },
+    "overall": {
+        "title": "Overall Rating",
+        "loading": "Loading rating...",
+        "outOf100": "out of 100",
+        "excellent": "Excellent ⭐",
+        "veryGood": "Very Good 🔥",
+        "good": "Good 👍",
+        "weak": "Needs Improvement ⚠️"
+    },
+    "performanceChart": {
+        "title": "Overall Performance Progress",
+        "loading": "Loading data...",
+        "noData": "No evaluations available yet",
+        "score": "Score"
+    },
+    "quickStats": {
+        "loading": "Loading statistics...",
+        "performanceGrowth": "Performance Growth",
+        "lastEvaluation": "Latest Evaluation",
+        "bestEvaluation": "Best Evaluation",
+        "totalEvaluations": "Total Evaluations",
+        "evaluations": "Evaluations",
+        "improved": "Overall Improvement",
+        "decreased": "Performance Declined",
+        "noData": "No Data Available"
+    },
+      "radarSkills": {
+        "title": "Skills Performance",
+        "loading": "Loading data...",
+        "score": "Score",
+
+        "shooting": "Shooting",
+        "dribbling": "Dribbling",
+        "speed": "Speed",
+        "footballIQ": "Football IQ",
+        "agility": "Agility",
+        "skillPerformance": "Skill Performance",
+
+        "passing": "Passing",
+        "longVision": "Long Passing Vision",
+        "endurance": "Endurance",
+        "decisionMaking": "Decision Making",
+        "teamwork": "Teamwork",
+
+        "strength": "Strength",
+        "focus": "Focus",
+        "discipline": "Discipline",
+        "balance": "Balance & Coordination",
+
+        "leadership": "Leadership"
+    
+
+    },
+    "skillsOverview": {
+      "title": "Player Performance Report",
+      "subtitle": "Complete analysis of player skills",
+
+      "technical": "Technical Skills",
+      "fitness": "Physical Fitness",
+      "mental": "Mental & Discipline",
+
+      "showAll": "Show all {{count}} skills",
+      "showLess": "Show less",
+
+      "strengths": "Strengths",
+      "weaknesses": "Needs Improvement",
+      "summary": "Skills Summary",
+
+      "loading": "Loading skills...",
+
+      "technicalSummary": "Technical Skills",
+      "fitnessSummary": "Physical Fitness",
+      "mentalSummary": "Mental & Discipline",
+
+      "excellent": "Excellent",
+      "veryGood": "Very Good",
+      "good": "Good",
+      "acceptable": "Average",
+      "weak": "Weak"
+    },
+    "skills": {
+      "receivePass": "First Touch & Passing",
+      "passing": "Passing",
+      "shooting": "Shooting",
+      "dribbling": "Dribbling",
+      "vision": "Vision & Long Passing",
+      "technicalPerformance": "Technical Performance",
+
+      "strength": "Strength",
+      "endurance": "Endurance",
+      "speed": "Speed",
+      "agility": "Agility",
+      "balance": "Balance & Coordination",
+      "coordination": "Motor Coordination",
+
+      "teamwork": "Teamwork",
+      "decisionMaking": "Decision Making",
+      "focus": "Focus",
+      "footballIQ": "Football Intelligence",
+      "discipline": "Discipline",
+      "leadership": "Leadership"
+    },
+    "actions": {
+      "home": "Home",
+      "whatsapp": "WhatsApp",
+      "share": "Share",
+      "copyLink": "Copy Link",
+
+      "shareTitle": "Player Report",
+      "shareText": "Player Evaluation Report",
+      "shareWhatsappTitle": "⚽ Player Report",
+
+      "linkCopied": "Link copied successfully"
+    },
+    "compare": {
+      "title": "Player Comparison",
+      "loading": "Loading data...",
+      "player": "Player",
+      "academyAverage": "Academy Average",
+      "bestScore": "Best Score",
+      "lowestScore": "Lowest Score"
+    } 
   }
 }
