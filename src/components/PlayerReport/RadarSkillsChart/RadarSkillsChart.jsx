@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer, Tooltip } from "recharts";
-import { useReport } from "../../../context/ReportContext";
+import { useReport } from "../../../Context/ReportContext";
 
 const RadarSkillsChart = ({ radarInView }) => {
   const { t } = useTranslation();

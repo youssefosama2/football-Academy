@@ -5,7 +5,7 @@ import {
   faFutbol, faDumbbell, faBrain, faStar, faEye, 
   faPersonRunning, faShieldHalved, faBolt, faFire, faMedal 
 } from "@fortawesome/free-solid-svg-icons";
-import { useReport } from "../../../context/ReportContext";
+import { useReport } from "../../../Context/ReportContext";
 import "./SkillsOverview.css";
 
 const SkillsOverview = () => {

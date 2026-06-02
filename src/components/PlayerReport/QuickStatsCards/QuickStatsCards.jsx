@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { faStar, faChartLine, faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useReport } from "../../../context/ReportContext";
+import { useReport } from "../../../Context/ReportContext";
 import "./QuickStatsCards.css";
 
 const QuickStatsCards = () => {

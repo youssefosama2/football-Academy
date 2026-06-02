@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useReport } from "../../../context/ReportContext";
+import { useReport } from "../../../Context/ReportContext";
 import "./PlayerInfoCard.css";
 
 const getPositionKey = (position) => {

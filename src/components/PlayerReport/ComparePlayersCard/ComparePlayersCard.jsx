@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../../../utils/supabaseClient";
-import { useReport } from "../../../context/ReportContext";
+import { useReport } from "../../../Context/ReportContext";
 import { ACADEMY_ID } from "../../../config/academy";
 const ComparePlayersCard = ({ compareInView }) => {
   const { t } = useTranslation();
