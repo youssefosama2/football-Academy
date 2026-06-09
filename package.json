@@ -17,6 +17,7 @@
     "@mui/icons-material": "^9.0.0",
     "@supabase/supabase-js": "^2.105.4",
     "bootstrap": "^5.3.8",
+    "browser-image-compression": "^2.0.2",
     "i18next": "^26.0.10",
     "i18next-browser-languagedetector": "^8.2.1",
     "react": "^19.2.5",
