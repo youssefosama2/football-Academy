@@ -83,6 +83,7 @@ const registrationFormTemplate = `
     <select id="player-branch">
       <option value="">اختر الفرع *</option>
       <option value="الفرع الرئيسي">الفرع الرئيسي</option> 
+      <option value="الفرع 2">الفرع 2</option> 
     </select>
 
     <input
