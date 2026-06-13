@@ -25,6 +25,7 @@ const positionsList = [
   "رأس حربة (ST)",
 ];
 
+// تعديل القالب لتضمين قائمة أكواد الدول مدمجة بشكل مرن ومثالي مع التصميم الداخلي
 const registrationFormTemplate = `
 <div class="swal-player-form">
 
@@ -86,10 +87,33 @@ const registrationFormTemplate = `
       <option value="الفرع 2">الفرع 2</option> 
     </select>
 
-    <input
-      id="parent-phone"
-      placeholder="رقم الهاتف *"
-    />
+    <div class="swal-phone-group" style="display: flex; gap: 8px; direction: ltr; grid-column: span 1;">
+      <select id="player-country" class="form-select" style="width: 110px; font-size: 13px; border: 1px solid #ccc; border-radius: 6px; padding: 0 4px; background-color: #fff;">
+        <option value="+20" selected>🇪🇬 +20</option>
+        <option value="+966">🇸🇦 +966</option>
+        <option value="+971">🇦🇪 +971</option>
+        <option value="+965">🇰🇼 +965</option>
+        <option value="+973">🇧🇭 +973</option>
+        <option value="+974">🇶🇦 +974</option>
+        <option value="+968">🇴🇲 +968</option>
+        <option value="+962">🇯🇴 +962</option>
+        <option value="+961">🇱🇧 +961</option>
+        <option value="+964">🇮🇶 +964</option>
+        <option value="+970">🇵🇸 +970</option>
+        <option value="+218">🇱🇾 +218</option>
+        <option value="+216">🇹🇳 +216</option>
+        <option value="+213">🇩🇿 +213</option>
+        <option value="+212">🇲🇦 +212</option>
+        <option value="+249">🇸🇩 +249</option>
+        <option value="+967">🇾🇪 +967</option>
+      </select>
+      <input
+        id="parent-phone"
+        placeholder="رقم الهاتف *"
+        type="tel"
+        style="flex: 1; margin: 0; text-align: right;"
+      />
+    </div>
 
     <textarea
       id="medical-notes"
@@ -225,29 +249,20 @@ export default function HeroSection() {
 
               const handleImageChange = async (e) => {
                 const file = e.target.files?.[0];
-
                 if (!file) return;
 
                 const compressed = await compressImage(file);
-
                 if (!compressed) return;
 
                 imageFile = compressed;
-
                 const reader = new FileReader();
 
                 reader.onload = (ev) => {
-                  const preview =
-                    document.getElementById("preview");
-
-                  const placeholder =
-                    document.getElementById(
-                      "placeholderIcon"
-                    );
+                  const preview = document.getElementById("preview");
+                  const placeholder = document.getElementById("placeholderIcon");
 
                   preview.src = ev.target.result;
                   preview.style.display = "block";
-
                   placeholder.style.display = "none";
                 };
 
@@ -257,36 +272,20 @@ export default function HeroSection() {
               const result = await Swal.fire({
                 title: "طلب انضمام لاعب",
                 html: registrationFormTemplate,
-
                 showCancelButton: true,
                 confirmButtonText: "إرسال الطلب",
                 cancelButtonText: "إلغاء",
-
                 scrollbarPadding: false,
 
                 didOpen: () => {
-                  document
-                    .getElementById("imagePicker")
-                    ?.addEventListener(
-                      "click",
-                      handleImageClick
-                    );
-
-                  document
-                    .getElementById("fileInput")
-                    ?.addEventListener(
-                      "change",
-                      handleImageChange
-                    );  
+                  document.getElementById("imagePicker")?.addEventListener("click", handleImageClick);
+                  document.getElementById("fileInput")?.addEventListener("change", handleImageChange);  
                   
-                  // ضبط القيود لحقل التاريخ
                   const birthDateInput = document.getElementById("birth-date");
                   if (birthDateInput) {
                     const today = new Date();
-                    
                     const maxYear = today.getFullYear() - 4;
                     const maxDate = `${maxYear}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-                    
                     const minYear = today.getFullYear() - 20;
                     const minDate = `${minYear}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
                     
@@ -296,63 +295,36 @@ export default function HeroSection() {
                 },
 
                 willClose: () => {
-                  document
-                    .getElementById("imagePicker")
-                    ?.removeEventListener(
-                      "click",
-                      handleImageClick
-                    );
-
-                  document
-                    .getElementById("fileInput")
-                    ?.removeEventListener(
-                      "change",
-                      handleImageChange
-                    );
+                  document.getElementById("imagePicker")?.removeEventListener("click", handleImageClick);
+                  document.getElementById("fileInput")?.removeEventListener("change", handleImageChange);
                 },
 
                 preConfirm: () => {
-                  const playerName =
-                    document.getElementById(
-                      "player-name"
-                    )?.value;
+                  const playerName = document.getElementById("player-name")?.value.trim();
+                  const birthDate = document.getElementById("birth-date")?.value;
+                  const position = document.getElementById("player-position")?.value;
+                  const branch = document.getElementById("player-branch")?.value;  
+                  const countryCode = document.getElementById("player-country")?.value || "";
+                  let phone = document.getElementById("parent-phone")?.value.trim();
+                  const medicalNotes = document.getElementById("medical-notes")?.value;
 
-                  const birthDate =
-                    document.getElementById(
-                      "birth-date"
-                    )?.value;
-
-                  const position =
-                    document.getElementById(
-                      "player-position"
-                    )?.value;
-
-                  const branch =
-                    document.getElementById(
-                      "player-branch"
-                    )?.value;  
-
-                  const phone =
-                    document.getElementById(
-                      "parent-phone"
-                    )?.value;
-
-                  const medicalNotes =
-                    document.getElementById(
-                      "medical-notes"
-                    )?.value;
-
-                  if (
-                    !playerName ||
-                    !birthDate ||
-                    !position ||
-                    !branch ||
-                    !phone
-                  ) {
-                    return Swal.showValidationMessage(
-                      "أكمل الحقول المطلوبة"
-                    );
+                  if (!playerName || !birthDate || !position || !branch || !phone) {
+                    return Swal.showValidationMessage("أكمل الحقول المطلوبة");
                   }
+
+                  // الحفاظ على مرونة النظام الدولي: تنظيف رقم الهاتف المدخل ودخوله للـ Database مدمجاً بكود الدولة المعين
+                  phone = phone.replace(/\D/g, "");
+                  if (!phone) {
+                    return Swal.showValidationMessage("يرجى إدخال رقم هاتف صحيح.");
+                  }
+
+                  // إزالة الصفر الافتتاحي في حال تمت كتابته خطأً من قبل ولي الأمر
+                  if (phone.startsWith("0")) {
+                    phone = phone.substring(1);
+                  }
+
+                  // الدمج النهائي للرقم بصيغته الدولية الكاملة
+                  phone = `${countryCode}${phone}`;
 
                   return {
                     playerName,
@@ -377,77 +349,36 @@ export default function HeroSection() {
                 let imageUrl = null;
 
                 if (imageFile) {
-                  // 🚀 تم تغيير المسار ليتم رفعه داخل باكت الـ avatars في مجلد requests للتنظيم
                   const filePath = `requests/${Date.now()}.jpg`;
+                  const { error: uploadError } = await supabase.storage.from("avatars").upload(filePath, imageFile);
+                  if (uploadError) throw uploadError;
 
-                  const { error: uploadError } =
-                    await supabase.storage
-                      .from("avatars") // اسم الباكت الجديد الموحد
-                      .upload(
-                        filePath,
-                        imageFile
-                      );
-
-                  if (uploadError)
-                    throw uploadError;
-
-                  const { data } =
-                    supabase.storage
-                      .from("avatars")
-                      .getPublicUrl(filePath);
-
-                  imageUrl =
-                    data.publicUrl;
+                  const { data } = supabase.storage.from("avatars").getPublicUrl(filePath);
+                  imageUrl = data.publicUrl;
                 }
 
-                const { error } =
-                  await supabase
-                    .from(
-                      "registration_requests"
-                    )
-                    .insert([
-                      {
-                        academy_id:
-                          ACADEMY_ID,
-
-                        player_name:
-                          result.value
-                            .playerName,
-
-                        birth_date:
-                          result.value
-                            .birthDate,
-
-                        position:
-                          result.value
-                            .position,
-                        
-                        branch: result.value.branch,
-
-                        parent_phone:
-                          result.value
-                            .phone,
-
-                        medical_notes:
-                          result.value
-                            .medicalNotes,
-
-                        player_image:
-                          imageUrl,
-
-                        status:
-                          "pending",
-                      },
-                    ]);
+                const { error } = await supabase
+                  .from("registration_requests")
+                  .insert([
+                    {
+                      academy_id: ACADEMY_ID,
+                      player_name: result.value.playerName,
+                      birth_date: result.value.birthDate,
+                      position: result.value.position,
+                      branch: result.value.branch,
+                      parent_phone: result.value.phone, // سيتم تخزينه بالصيغة الدولية الموحدة الكاملة (+20xxxxxxxx)
+                      medical_notes: result.value.medicalNotes,
+                      player_image: imageUrl,
+                      status: "pending",
+                    },
+                  ]);
 
                 if (error) throw error;
 
                 Swal.fire({
                   icon: "success",
-                  title:
-                    "تم إرسال الطلب بنجاح",
-                  text:
-                    "سيتم مراجعة البيانات والتواصل معكم قريباً",
+                  title: "تم إرسال الطلب بنجاح",
+                  text: "سيتم مراجعة البيانات والتواصل معكم قريباً",
                 });
               } catch (err) {
                 Swal.fire({
