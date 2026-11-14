@@ -129,9 +129,18 @@ const PerformanceChart = ({ performanceInView }) => {
                 ]}
                 contentStyle={{
                   borderRadius: "10px",
-                  border: "none",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                  border: "1px solid var(--performance-tooltip-border)",
+                  backgroundColor: "var(--performance-tooltip-bg)",
+                  boxShadow: "0 4px 12px var(--performance-tooltip-shadow)",
                   textAlign: "right",
+                }}
+                labelStyle={{
+                  color: "var(--performance-tooltip-text)",
+                  fontWeight: 600,
+                  marginBottom: "5px",
+                }}
+                itemStyle={{
+                  color: "var(--performance-tooltip-text)",
                 }}
               />
 

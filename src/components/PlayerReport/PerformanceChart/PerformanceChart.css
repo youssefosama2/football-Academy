@@ -126,3 +126,18 @@
         min-height: 260px;
     }
 }
+/* Light Mode */
+:root {
+  --performance-tooltip-bg: #ffffff;
+  --performance-tooltip-text: #1e293b;
+  --performance-tooltip-border: #e2e8f0;
+  --performance-tooltip-shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+  --performance-tooltip-bg: #1E293B;
+  --performance-tooltip-text: #e2e8f0;
+  --performance-tooltip-border: #334155;
+  --performance-tooltip-shadow: rgba(0, 0, 0, 0.3);
+}

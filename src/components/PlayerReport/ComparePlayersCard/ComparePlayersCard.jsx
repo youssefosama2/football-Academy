@@ -22,35 +22,35 @@ const ComparePlayersCard = ({ compareInView }) => {
     const bestPlayer = Number(academyStats?.bestScore) || 0;
     const lowestPlayer = Number(academyStats?.lowestScore) || 0;
 
-    return [
-      {
-        label:
-          currentEvaluation?.player_name ||
-          t("report.compare.player"),
-        value: playerScore,
-        color: "#2563ff",
-      },
-      {
-        label: t("report.compare.academyAverage"),
-        value: academyAverage,
-        color: "#22c55e",
-      },
-      {
-        label: t("report.compare.bestScore"),
-        value: bestPlayer,
-        color: "#9333ea",
-      },
-      {
-        label: t("report.compare.lowestScore"),
-        value: lowestPlayer,
-        color: "#ef4444",
-      },
-    ];
+  return [
+    {
+      label:
+        currentEvaluation?.player_name ||
+        t("ReportPage.comparePlayersCard.player"),
+      value: playerScore,
+      color: "#2563ff",
+    },
+    {
+      label: t("ReportPage.comparePlayersCard.academyAverage"),
+      value: academyAverage,
+      color: "#22c55e",
+    },
+    {
+      label: t("ReportPage.comparePlayersCard.bestEvaluation"),
+      value: bestPlayer,
+      color: "#9333ea",
+    },
+    {
+      label: t("ReportPage.comparePlayersCard.lowestEvaluation"),
+      value: lowestPlayer,
+      color: "#ef4444",
+    },
+  ];
   }, [currentEvaluation, academyStats, t]);
 
   return (
     <div className="compare-card h-100">
-      <h3>{t("report.compare.title")}</h3>
+      <h3>{t("ReportPage.comparePlayersCard.title")}</h3>
 
       {contextLoading ? (
         <div
@@ -63,7 +63,8 @@ const ComparePlayersCard = ({ compareInView }) => {
             fontWeight: "600",
           }}
         >
-          {t("report.compare.loading")}
+          
+          {t("ReportPage.comparePlayersCard.loading")}
         </div>
       ) : (
         compareData.map((item, index) => (

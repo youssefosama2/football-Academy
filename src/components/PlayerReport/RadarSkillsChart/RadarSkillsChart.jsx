@@ -216,6 +216,20 @@ const RadarSkillsChart = ({ radarInView }) => {
                     `${value}`,
                     t("ReportPage.radarSkillsChart.rating"),
                   ]}
+                  contentStyle={{
+                    borderRadius: "10px",
+                    border: "1px solid var(--performance-tooltip-border)",
+                    backgroundColor: "var(--performance-tooltip-bg)",
+                    boxShadow: "0 4px 12px var(--performance-tooltip-shadow)",
+                    textAlign: isRTL ? "right" : "left",
+                  }}
+                  labelStyle={{
+                    color: "var(--performance-tooltip-text)",
+                    fontWeight: 600,
+                  }}
+                  itemStyle={{
+                    color: "var(--performance-tooltip-text)",
+                  }}
                 />
               </RadarChart>
             </ResponsiveContainer>
