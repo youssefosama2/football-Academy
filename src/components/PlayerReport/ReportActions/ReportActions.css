@@ -82,3 +82,40 @@
     width: 100%;
   }
 }
+[data-theme="dark"] .report-actions {
+  background: #1E293B;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .action-btn {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .action-btn:hover {
+  background: #334155;
+}
+
+[data-theme="dark"] .home-btn {
+  background: #263c59;
+  color: #60a5fa;
+}
+
+[data-theme="dark"] .whatsapp-btn {
+  background: #164534;
+  color: #4ade80;
+}
+
+[data-theme="dark"] .share-btn,
+[data-theme="dark"] .copy-btn,
+[data-theme="dark"] .theme-action-btn,
+[data-theme="dark"] .lang-action-btn {
+  background: #334155;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .share-btn:hover,
+[data-theme="dark"] .copy-btn:hover,
+[data-theme="dark"] .theme-action-btn:hover,
+[data-theme="dark"] .lang-action-btn:hover {
+  background: #475569;
+}

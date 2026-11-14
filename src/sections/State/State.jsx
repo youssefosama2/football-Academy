@@ -1,106 +1,219 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Container } from "react-bootstrap";
 import "./State.css";
+
 import { handleJoin } from "../../utils/joinHandler.js";
-import { useTranslation } from "react-i18next"; 
+import { useTranslation } from "react-i18next";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 
-export default function StatsSection() {
+import {
+  faArrowLeft,
+  faArrowRight,
+  faChartLine,
+  faMedal,
+  faUsers,
+  faUserTie,
+} from "@fortawesome/free-solid-svg-icons";
+
+const StatsSection = () => {
   const { t, i18n } = useTranslation();
   const sectionRef = useRef(null);
-  const [start, setStart] = useState(false);
+  const [started, setStarted] = useState(false);
+  const [counts, setCounts] = useState([0, 0, 0, 0]);
 
-  const statsData = [
-    { title: t("stats.coach"), target: 16, plus: true },
-    { title: t("stats.technical"), target: 8 },
-    { title: t("stats.trophies"), target: 12 },
-    { title: t("stats.player"), target: 170, plus: true },
-  ];
-  
-  const [counts, setCounts] = useState(statsData.map(() => 0));
+  const isAr = i18n.language?.startsWith("ar");
+
+  const statsData = useMemo(
+    () => [
+      {
+        id: "coach",
+        value: 16,
+        plus: true,
+        icon: faUserTie,
+        label: t("stats.coach"),
+      },
+      {
+        id: "technical",
+        value: 8,
+        plus: false,
+        icon: faChartLine,
+        label: t("stats.technical"),
+      },
+      {
+        id: "trophies",
+        value: 12,
+        plus: false,
+        icon: faMedal,
+        label: t("stats.trophies"),
+      },
+      {
+        id: "player",
+        value: 170,
+        plus: true,
+        icon: faUsers,
+        label: t("stats.player"),
+      },
+    ],
+    [t, i18n.language]
+  );
 
   useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    if (!("IntersectionObserver" in window)) {
+      setStarted(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setStart(true);
+          setStarted(true);
           observer.disconnect();
         }
       },
-      { threshold: 0.4 }
+      { threshold: 0.2 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    observer.observe(section);
 
     return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
-    if (!start) return;
+    if (!started) return;
 
-    statsData.forEach((item, index) => {
-      let current = 0;
-      const interval = setInterval(() => {
-        current += Math.ceil(item.target / 100);
-        setCounts((prev) => {
-          const updated = [...prev];
-          updated[index] = current > item.target ? item.target : current;
-          return updated;
-        });
-        if (current >= item.target) clearInterval(interval);
-      }, 25);
-    });
-  }, [start, i18n.language]);
+    const duration = 1600;
+    const startTime = performance.now();
+    let animationFrame;
+
+    const animate = (currentTime) => {
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+      const easedProgress = 1 - Math.pow(1 - progress, 4);
+
+      setCounts(
+        statsData.map((item) =>
+          Math.floor(item.value * easedProgress)
+        )
+      );
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(animationFrame);
+  }, [started, statsData]);
+
+  const ArrowIcon = isAr ? faArrowLeft : faArrowRight;
 
   return (
     <>
-      <div ref={sectionRef} id="joinUs" className="stats-section py-5 wow fadeInUp"  data-wow-duration="2s" data-wow-delay=".2s" >
-        <Container className="bg-dark text-white p-5 rounded-5 shadow-lg">
-          <Row className="align-items-center g-5">
-            <Col lg={6} className={i18n.language === 'ar' ? "text-lg-end text-center" : "text-lg-start text-center"}>
-              <h2 className="fw-bold mb-3 position-relative d-inline-block">
-                {t("stats.heading")}
-                <span className="title-line"></span>
-              </h2>
-              <p className="text-white-50 lh-lg mb-4">{t("stats.description")}</p>
-              <Button 
-                className="btn btn-primary rounded-pill px-5 py-2 fw-bold" 
-                onClick={() => handleJoin({ type: "info", plan: t("stats.btn") })}
-              > 
-                {t("stats.btn")}
-              </Button>
-            </Col>
-            <Col lg={6}>
-              <Row className="text-center g-4">
-                {statsData.map((item, index) => (
-                  <Col xs={6} key={index}>
-                    <div className="stat-item">
-                      <h2 className="display-5 fw-bold mb-0">
-                        {counts[index]}
-                        {item.plus && (<span>+</span>)}
-                      </h2> 
-                      <p className="text-white-50 small">{item.title}</p>
+      <section
+        className={`stats-section ${isAr ? "stats-rtl" : "stats-ltr"}`}
+        ref={sectionRef}
+        dir={isAr ? "rtl" : "ltr"}
+      >
+        <Container>
+          <div className="stats-wrapper">
+            <div className="stats-main">
+              <div className="stats-intro">
+                <span className="stats-eyebrow">
+                  <span className="stats-eyebrow-line" />
+                  {t("stats.title")}
+                </span>
+
+                <h2 className="stats-heading">
+                  {t("stats.heading")}
+                </h2>
+
+                <p className="stats-description">
+                  {t("stats.description")}
+                </p>
+
+                <button
+                  type="button"
+                  className="stats-cta"
+                  onClick={() =>
+                    handleJoin({
+                      type: "info",
+                      plan: t("stats.btn"),
+                    })
+                  }
+                >
+                  <span>{t("stats.btn")}</span>
+                  <FontAwesomeIcon icon={ArrowIcon} />
+                </button>
+              </div>
+
+              <div className="stats-data">
+                <div className="stats-data-header">
+                  <span className="stats-data-caption">
+                    {t("stats.overview")}
+                  </span>
+                  <span className="stats-data-indicator">
+                    <span />
+                    {t("stats.indicator")}
+                  </span>
+                </div>
+
+                <div className="stats-list">
+                  {statsData.map((item, index) => (
+                    <div className="stats-item" key={item.id}>
+                      <div className="stats-item-top">
+                        <span className="stats-item-icon">
+                          <FontAwesomeIcon icon={item.icon} />
+                        </span>
+
+                        <span className="stats-item-index">
+                          0{index + 1}
+                        </span>
+                      </div>
+
+                      <div className="stats-item-value">
+                        {counts[index].toLocaleString(
+                          isAr ? "ar-EG" : "en-US"
+                        )}
+                        {item.plus && <span className="stats-plus">+</span>}
+                      </div>
+
+                      <div className="stats-item-label">
+                        {item.label}
+                      </div>
+
+                      <div className="stats-item-line">
+                        <span />
+                      </div>
                     </div>
-                  </Col>
-                ))}
-              </Row>
-            </Col>
-          </Row>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="stats-bottom">
+              <span>{t("stats.footer")}</span>
+              <span className="stats-bottom-mark">ROVELA</span>
+            </div>
+          </div>
         </Container>
-      </div>
-      <div>
-        <a
-          href="https://wa.me/201091654379"
-          className="whatsapp"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <FontAwesomeIcon icon={faWhatsapp} />
-        </a>
-      </div>
+      </section>
+
+      <a
+        href="https://wa.me/201091654379"
+        className="stats-whatsapp"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Contact us on WhatsApp"
+      >
+        <FontAwesomeIcon icon={faWhatsapp} />
+      </a>
     </>
   );
-}
+};
+
+export default StatsSection;

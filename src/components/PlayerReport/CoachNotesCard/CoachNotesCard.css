@@ -1,0 +1,110 @@
+/* =========================
+   COACH NOTES CARD
+========================= */
+
+.notes-card-new {
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 24px;
+    min-height: 180px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.notes-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.notes-header h3 {
+    margin: 0;
+    color: #1b2559;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.notes-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eef4ff;
+    color: #2563ff;
+
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   NOTES TEXT
+========================= */
+
+.notes-card-new > p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.9;
+    font-weight: 500;
+}
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+[data-theme="dark"] .notes-card-new {
+    background: #1e293b;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+[data-theme="dark"] .notes-header h3 {
+    color: #f8fafc;
+}
+
+[data-theme="dark"] .notes-icon {
+    background: #273449;
+    color: #818cf8;
+}
+
+[data-theme="dark"] .notes-card-new > p {
+    color: #cbd5e1;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+    .notes-card-new {
+        padding: 20px;
+        border-radius: 18px;
+    }
+
+    .notes-header {
+        margin-bottom: 14px;
+    }
+
+    .notes-header h3 {
+        font-size: 17px;
+    }
+
+    .notes-card-new > p {
+        font-size: 13px;
+        line-height: 1.8;
+    }
+}

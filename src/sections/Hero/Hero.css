@@ -1,246 +1,998 @@
+/* ============================== Hero ============================== */
 .hero {
-  min-height: 100vh;
-  background: url("/assets/img/front-view-football-trainer-teaching-kids-field_23-2149742029.webp") center top/cover;
   position: relative;
-  padding-top: 100px;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  min-height: auto;
+  padding: 38px 0 24px;
+  overflow: hidden;
+  background: var(--bg-main);
+  color: var(--text-main);
+  transition: background-color .3s ease, color .3s ease;
 }
 .hero::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
+  top: -210px;
+  inset-inline-start: -220px;
+  z-index: -1;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  filter: blur(10px);
+  pointer-events: none;
 }
-.hero .container {
+.hero-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-inline: 20px;
+}
+.hero-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  align-items: center;
+  gap: 34px;
+}
+.hero-content {
   position: relative;
   z-index: 2;
+  min-width: 0;
+  max-width: 570px;
 }
-.hero-stats h4 {
-  font-weight: bold;
-}
-.player-search-box {
-  max-width: 650px;
-  margin: 0 auto;
-}
-
-.search-input {
-  max-width: 450px;
-  min-height: 48px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+/* ============================== Text ============================== */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 13px;
+  padding: 6px 12px;
+  border: 1px solid var(--border-color);
   border-radius: 50px;
+  background: var(--bg-secondary);
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 800;
 }
-
-.search-input::placeholder {
+.hero-badge-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+.hero-title {
+  max-width: 600px;
+  margin: 0 0 11px;
+  color: var(--text-main);
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 1.35;
+  letter-spacing: -.8px;
+}
+.hero-description {
+  max-width: 530px;
+  margin: 0 0 14px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.8;
+}
+/* ============================== Highlights ============================== */
+.hero-highlights {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 15px;
+  margin-bottom: 17px;
+}
+.hero-highlight {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.highlight-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: 10px;
+  font-weight: 900;
+}
+/* ============================== Registration Button ============================== */
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 17px;
+}
+.hero-register-btn {
+  min-height: 45px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  padding: 0 18px;
+  border: 1px solid var(--primary);
+  border-radius: 11px;
+  background: var(--primary);
   color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease;
+}
+.hero-register-btn:hover {
+  transform: translateY(-2px);
+  background: var(--primary-hover);
+  box-shadow: var(--shadow-md);
+}
+.hero-register-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--primary-soft);
+}
+.hero-btn-arrow {
+  font-size: 18px;
+  line-height: 1;
+  transition: transform .25s ease;
+}
+.hero-register-btn:hover .hero-btn-arrow {
+  transform: translateX(-3px);
+}
+html[dir="ltr"] .hero-register-btn:hover .hero-btn-arrow {
+  transform: translateX(3px);
+}
+/* ============================== Player Search ============================== */
+.player-search-box {
+  max-width: 460px;
+  padding: 12px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 13px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+.player-search-box:focus-within {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+}
+.search-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 9px;
+}
+.search-icon {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: 14px;
+}
+.search-heading h5 {
+  margin: 0 0 3px;
+  color: var(--text-main);
+  font-size: 13px;
+  font-weight: 800;
+}
+.search-heading p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 10px;
+  line-height: 1.6;
+}
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.search-input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  min-height: 41px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 9px;
+  background: var(--bg-input);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 12px;
+  text-align: start;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.search-input::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
 }
 .search-input:focus {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #fff;
-  box-shadow: none;
+  border-color: var(--primary);
+  background: var(--bg-input);
+  color: var(--text-main);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+  outline: none;
 }
-
 .btn-search-custom {
-  background-color: #2563eb !important; 
-  border: none !important;
-  border-radius: 50% !important; 
-  width: 45px !important;     
-  height: 45px !important;    
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  transition: transform 0.2s ease !important;
+  width: 41px;
+  height: 41px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 9px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform .2s ease, background-color .2s ease;
 }
-
 .btn-search-custom:hover {
-  transform: scale(1.1); 
-  background-color: #1d4ed8 !important;
+  transform: translateY(-2px);
+  background: var(--primary-hover);
 }
-
-/* ===== SweetAlert Custom ===== */
-
-.swal-popup {
-  border-radius: 16px !important;
-  padding: 10px !important;
+.btn-search-custom:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--primary-soft);
 }
-
+/* ============================== Hero Visual ============================== */
+.hero-visual {
+  position: relative;
+  min-width: 0;
+  padding: 0 10px 10px;
+}
+.hero-image {
+  position: relative;
+  min-height: 350px;
+  overflow: hidden;
+  border-radius: 21px;
+  background: var(--bg-secondary) url("/assets/img/front-view-football-trainer-teaching-kids-field_23-2149742029.webp") center/cover no-repeat;
+  box-shadow: var(--shadow-md);
+}
+.hero-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10,25,45,.04) 15%, rgba(10,25,45,.18) 45%, rgba(10,25,45,.78) 100%);
+}
+.hero-image-content {
+  position: absolute;
+  inset-inline: 22px;
+  bottom: 20px;
+  z-index: 2;
+}
+.hero-image-line {
+  width: 36px;
+  height: 3px;
+  display: block;
+  margin-bottom: 9px;
+  border-radius: 5px;
+  background: #fff;
+}
+.hero-image-content p {
+  max-width: 280px;
+  margin: 0;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.6;
+  text-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+/* ============================== Image Number ============================== */
+.hero-image-number {
+  position: absolute;
+  top: 15px;
+  inset-inline-end: 25px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 50px;
+  background: rgba(15,23,42,.28);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.number-line {
+  width: 22px;
+  height: 1px;
+  background: rgba(255,255,255,.7);
+}
+/* ============================== Championship Card ============================== */
+.hero-championship-card {
+  position: absolute;
+  bottom: 25px;
+  inset-inline-end: -5px;
+  z-index: 4;
+  min-width: 150px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 13px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-md);
+  color: var(--text-main);
+  animation: heroFloat 4s ease-in-out infinite;
+}
+.championship-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: var(--primary-soft);
+  font-size: 18px;
+}
+.hero-championship-card > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.hero-championship-card strong {
+  color: var(--primary);
+  font-size: 19px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+.hero-championship-card span {
+  color: var(--text-secondary);
+  font-size: 10px;
+  font-weight: 600;
+}
+/* ============================== Statistics ============================== */
+.hero-stats {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 680px;
+  margin: 25px auto 0;
+  padding: 13px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+}
+.hero-stats > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  text-align: center;
+}
+.hero-stats > div:not(:last-child) {
+  border-inline-end: 1px solid var(--border-color);
+}
+.hero-stats h4 {
+  margin: 0;
+  color: var(--text-main);
+  font-size: 23px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+.hero-stats h4 .text-primary {
+  color: var(--primary) !important;
+}
+.hero-stats span {
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+}
+/* ============================== Animation ============================== */
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+/* ============================== SweetAlert ============================== */
+.swal2-popup.swal-popup {
+  padding: 12px !important;
+  border: 1px solid var(--border-color);
+  border-radius: 18px !important;
+  background: var(--bg-card);
+  color: var(--text-main);
+}
 .swal-player-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  direction: rtl;
+  gap: 5px;
   font-family: "Cairo", sans-serif;
 }
-
+.swal-player-form:dir(rtl) {
+  direction: rtl;
+  text-align: right;
+}
+.swal-player-form:dir(ltr) {
+  direction: ltr;
+  text-align: left;
+}
+.swal2-title {
+  margin-bottom: 0 !important;
+  color: var(--text-main) !important;
+}
+.swal2-html-container {
+  padding: 10px 0 !important;
+  color: var(--text-secondary) !important;
+}
+/* ============================== Player Image ============================== */
 .swal-image-wrapper {
   text-align: center;
 }
-
 .swal-image-picker {
+  position: relative;
   width: 110px;
   height: 110px;
-  margin: auto;
-  border-radius: 50%;
-  border: 2px dashed #cbd5e1;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  background: #f8fafc;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: 0.3s;
+  margin: auto;
+  overflow: hidden;
+  border: 2px dashed var(--border-color);
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  cursor: pointer;
+  transition: border-color .3s ease;
 }
-
 .swal-image-picker:hover {
-  border-color: #1d4ed8;
+  border-color: var(--primary);
 }
-
 .swal-preview {
   width: 100%;
   height: 100%;
-  object-fit: cover;
   display: none;
+  object-fit: cover;
 }
-
 .swal-placeholder {
+  color: var(--text-muted);
   font-size: 32px;
-  color: #94a3b8;
 }
-
 .swal-plus {
   position: absolute;
-  bottom: 6px;
-  right: 6px;
+  top: 15px;
   width: 26px;
   height: 26px;
-  background: #1d4ed8;
-  color: white;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
   font-weight: bold;
 }
-
-.swal-hint {
-  font-size: 12px;
-  color: #94a3b8;
-  margin-top: 5px;
+.swal-image-picker:dir(rtl) .swal-plus {
+  right: 15px;
+  left: auto;
 }
-
+.swal-image-picker:dir(ltr) .swal-plus {
+  right: auto;
+  left: 15px;
+}
+.swal-hint {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+/* ============================== Registration Form ============================== */
 .swal-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
+  align-items: stretch;
 }
-
 .swal-grid input,
-.swal-grid select {
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #e2e8f0;
-  outline: none;
-  font-size: 13px;
-  transition: 0.2s;
-}
-
-.swal-grid input:focus,
-.swal-grid select:focus {
-  border-color: #1d4ed8;
-  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.1);
-}
+.swal-grid select,
 .swal-grid textarea {
-  grid-column: span 1; /* تأخذ عموداً واحداً فقط بجانب رقم الهاتف */
-  grid-row: span 1;    /* تأخذ سطراً واحداً فقط ولا تمتد لأسفل */
-  height: 42px;        /* نفس طول حقل رقم الهاتف وبقية الـ inputs بالضبط */
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #e2e8f0;
-  outline: none;
-  font-size: 13px;
-  font-family: "Cairo", sans-serif;
-  resize: none;        /* يمنع المستخدم من مط الحقل وتخريب التصميم */
+  width: 100%;
+  min-width: 0;
   box-sizing: border-box;
-  transition: 0.2s;
-  overflow: hidden;    /* يخفي شريط التمرير ليظل كأنه حقل سطر واحد */
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  outline: none;
+  background: var(--bg-input);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 13px;
+  transition: border-color .2s ease, box-shadow .2s ease;
 }
-
+.swal-grid input:dir(rtl),
+.swal-grid select:dir(rtl),
+.swal-grid textarea:dir(rtl) {
+  direction: rtl;
+  text-align: right;
+}
+.swal-grid input:dir(ltr),
+.swal-grid select:dir(ltr),
+.swal-grid textarea:dir(ltr) {
+  direction: ltr;
+  text-align: left;
+}
+.swal-grid input:focus,
+.swal-grid select:focus,
 .swal-grid textarea:focus {
-  border-color: #1d4ed8;
-  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.1);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
 }
-
-.swal-grid input[type="date"] {
-  cursor: pointer;
-}
-
 .swal-grid input::placeholder,
 .swal-grid textarea::placeholder {
-  color: #94a3b8;
+  color: var(--text-muted);
 }
-.swal2-actions{
+/* ============================== Phone Fields ============================== */
+.swal-phone-group {
+  display: grid;
+  grid-template-columns: 105px minmax(0, 1fr);
+  gap: 8px;
+  direction: ltr;
+  width: 100%;
+  min-width: 0;
+}
+.swal-phone-group select,
+.swal-phone-group input {
+  width: 100%;
+  min-width: 0;
+  height: 44px;
+  margin: 0;
+  padding: 0 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-input);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 13px;
+}
+.swal-phone-group select:focus,
+.swal-phone-group input:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+.swal-phone-group input {
+  text-align: left !important;
+}
+/* ============================== Medical Notes ============================== */
+.swal-grid > textarea {
+  width: 100%;
+  min-width: 0;
+  height: 44px;
+  min-height: 44px;
+  margin: 0;
+  resize: none;
+  overflow: hidden;
+}
+/* ============================== Date Input ============================== */
+.swal-player-form input[type="date"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-input);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.swal-player-form:dir(rtl) input[type="date"] {
+  direction: rtl;
+  text-align: right;
+}
+.swal-player-form:dir(ltr) input[type="date"] {
+  direction: ltr;
+  text-align: left;
+}
+.swal-player-form input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: .75;
+}
+.swal-player-form:dir(rtl) input[type="date"]::-webkit-calendar-picker-indicator {
+  margin-right: auto;
+  margin-left: 0;
+}
+.swal-player-form:dir(ltr) input[type="date"]::-webkit-calendar-picker-indicator {
+  margin-right: 0;
+  margin-left: auto;
+}
+.swal-player-form input[type="date"]:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+/* ============================== Parent Declaration ============================== */
+.swal-declaration {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+.swal-declaration p {
+  margin: 0;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.8;
+}
+.swal-declaration:dir(rtl) p {
+  direction: rtl;
+  text-align: right;
+}
+.swal-declaration:dir(ltr) p {
+  direction: ltr;
+  text-align: left;
+}
+/* ============================== SweetAlert Actions ============================== */
+.swal2-actions {
   justify-content: center !important;
   margin-top: 0 !important;
 }
-.swal2-actions .swal2-cancel{
-  border: none !important;
-  border-radius: 10px !important;
+.swal2-actions .swal2-cancel {
   padding: 10px 30px !important;
+  border: 0 !important;
+  border-radius: 10px !important;
   font-weight: 700 !important;
 }
-.swal-full-width {
-  grid-column: 1 / -1;
-}
-@media (max-width: 576px) {
-  .swal-grid {
-    grid-template-columns: 1fr;
+/* ============================== Tablet ============================== */
+@media (max-width: 991.98px) {
+  .hero {
+    padding: 32px 0 20px;
   }
-
-  .swal-popup {
-    width: calc(100% - 30px) !important;
+  .hero-container {
+    padding-inline: 18px;
   }
-}
-@media (max-width: 576px) {
-  .swal-grid {
-    grid-template-columns: 1fr;
+  .hero-main {
+    gap: 22px;
   }
-  
-  /* اضف هذا السطر لحل مشكلة التمدد على الموبايل */
-  .swal-grid textarea {
-    grid-row: auto; 
-    height: 90px;
+  .hero-description {
+    font-size: 13px;
   }
-
-  .swal-popup {
-    width: calc(100% - 30px) !important;
+  .hero-image {
+    min-height: 310px;
+  }
+  .hero-championship-card {
+    inset-inline-end: -5px;
+    min-width: 140px;
+  }
+  .hero-stats {
+    margin-top: 21px;
   }
 }
-.swal-player-form input[type="date"] {
-    direction: rtl;
-    text-align: right;
-    padding: 10px 15px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-family: inherit;
-    font-size: 14px;
-    color: #333;
-    background-color: #fff;
+/* ============================== Mobile ============================== */
+@media (max-width: 767.98px) {
+  .hero {
+    padding: 28px 0 20px;
+  }
+  .hero-container {
+    padding-inline: 16px;
+  }
+  .hero-main {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 21px;
+  }
+  .hero-content {
+    max-width: 100%;
+    text-align: center;
+  }
+  .hero-badge {
+    margin-bottom: 11px;
+  }
+  .hero-title {
+    max-width: 540px;
+    margin: 0 auto 10px;
+    line-height: 1.4;
+    letter-spacing: -.5px;
+  }
+  .hero-description {
+    max-width: 500px;
+    margin: 0 auto 13px;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  .hero-highlights {
+    justify-content: center;
+    align-items: center;
+    gap: 8px 12px;
+    margin-bottom: 15px;
+  }
+  .hero-highlight {
+    justify-content: center;
+    font-size: 11px;
+  }
+  .hero-actions {
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+  .player-search-box {
+    max-width: 480px;
+    margin-inline: auto;
+    text-align: start;
+  }
+  .hero-visual {
     width: 100%;
-    box-sizing: border-box;
+    max-width: 480px;
+    margin-inline: auto;
+  }
+  .hero-image {
+    min-height: 290px;
+  }
+  .hero-image-content {
+    inset-inline: 18px;
+    bottom: 20px;
+  }
+  .hero-image-content p {
+    font-size: 15px;
+  }
+  .hero-championship-card {
+    bottom: 22px;
+    min-width: 140px;
+  }
+  .hero-stats {
+    margin-top: 20px;
+    padding: 13px 7px;
+  }
+  .hero-stats h4 {
+    font-size: 21px;
+  }
+}
+/* ============================== Small Mobile ============================== */
+@media (max-width: 480px) {
+  .hero {
+    padding: 23px 0 17px;
+  }
+  .hero-container {
+    padding-inline: 14px;
+  }
+  .hero-main {
+    gap: 18px;
+  }
+  .hero-description {
+    font-size: 12px;
+  }
+  .hero-badge {
+    display: none;
+  }
+  .hero-title {
+    font-size: 27px;
+    margin: 0 auto 15px;
+  }
+  .hero-highlights {
+    gap: 8px 10px;
+  }
+  .hero-highlight {
+    font-size: 10px;
+  }
+  .hero-register-btn {
+    min-height: 43px;
+    padding-inline: 15px;
+    gap: 11px;
+    font-size: 12px;
+  }
+  .player-search-box {
+    padding: 11px;
+    margin-top: 14px;
+  }
+  .search-heading {
+    gap: 9px;
+    margin-bottom: 8px;
+  }
+  .search-heading h5 {
+    font-size: 12px;
+  }
+  .search-heading p {
+    font-size: 10px;
+  }
+  .search-icon {
+    width: 32px;
+    height: 32px;
+  }
+  .search-input,
+  .btn-search-custom {
+    min-height: 39px;
+    height: 39px;
+  }
+  .btn-search-custom {
+    width: 39px;
+  }
+  .hero-visual {
+    padding: 0 7px 10px;
+  }
+  .hero-image {
+    min-height: 250px;
+    border-radius: 17px;
+  }
+  .hero-image-content {
+    inset-inline: 14px;
+    bottom: 17px;
+  }
+  .hero-image-content p {
+    font-size: 14px;
+  }
+  .hero-image-number {
+    top: 12px;
+    inset-inline-end: 15px;
+    padding: 6px 9px;
+    font-size: 9px;
+  }
+  .hero-championship-card {
+    bottom: 20px;
+    min-width: 130px;
+    gap: 8px;
+    padding: 9px 10px;
+  }
+  .championship-icon {
+    width: 33px;
+    height: 33px;
+    font-size: 16px;
+  }
+  .hero-championship-card strong {
+    font-size: 17px;
+  }
+  .hero-championship-card span {
+    font-size: 9px;
+  }
+  .hero-stats {
+    margin-top: 18px;
+    padding: 11px 4px;
+    border-radius: 12px;
+  }
+  .hero-stats h4 {
+    font-size: 19px;
+  }
+  .hero-stats span {
+    font-size: 9px;
+  }
+  .swal-grid {
+    grid-template-columns: 1fr;
+  }
+  .swal-grid > textarea {
+    height: 90px;
+    min-height: 90px;
+  }
+  .swal-phone-group {
+    grid-template-columns: 105px minmax(0, 1fr);
+  }
+  .swal-popup {
+    width: calc(100% - 30px) !important;
+  }
+}
+/* ============================== Extra Small ============================== */
+@media (max-width: 360px) {
+  .hero-image {
+    min-height: 225px;
+  }
+  .hero-stats h4 {
+    font-size: 17px;
+  }
+  .hero-stats span {
+    font-size: 8px;
+  }
+  .hero-championship-card {
+    min-width: 120px;
+  }
+}
+/* ============================== Reduced Motion ============================== */
+@media (prefers-reduced-motion: reduce) {
+  .hero *,
+  .hero *::before,
+  .hero *::after {
+    animation: none !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/* ==============================
+   Hero Theme & Section Connection
+============================== */
+
+.hero {
+  background: var(--bg-main);
+  color: var(--text-main);
+  isolation: isolate;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
-.swal-player-form input[type="date"]::-webkit-calendar-picker-indicator {
-    cursor: pointer;
-    filter: invert(0.3); 
-    margin-right: auto;
-    margin-left: 0;
+/* Decorative glow - adapts to both themes */
+.hero::before {
+  background: var(--primary-soft);
 }
 
-.swal-player-form input[type="date"]:focus {
-    border-color: #0d6efd;
-    outline: none;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+/* Bottom-right decorative circle */
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  inset-inline-end: -130px;
+  bottom: -130px;
+  z-index: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  background: var(--primary-soft);
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+/* Keep content above decorations */
+.hero-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Dark Mode */
+[data-theme="dark"] .hero {
+  background: #101b2b;
+  color: #ffffff;
+}
+
+/* Light Mode */
+:root:not([data-theme="dark"]) .hero {
+  background: #ffffff;
+  color: #172b45;
+}
+
+/* Mobile */
+@media (max-width: 767.98px) {
+  .hero::after {
+    width: 190px;
+    height: 190px;
+    inset-inline-end: -95px;
+    bottom: -95px;
+  }
+}
+/* =========================
+   Mobile Hero Order
+========================= */
+@media (max-width: 767.98px) {
+  .hero-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-main {
+    display: contents;
+  }
+
+  /* 1 - Image */
+  .hero-visual {
+    order: 1;
+    width: 100%;
+  }
+
+  /* 2 - Content */
+  .hero-content {
+    order: 2;
+    width: 100%;
+  }
+
+  /* 3 - Statistics */
+  .hero-stats {
+    order: 3;
+    width: 100%;
+  }
 }

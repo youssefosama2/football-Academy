@@ -8,187 +8,300 @@ import imageCompression from "browser-image-compression";
 
 import { supabase } from "../../utils/supabaseClient";
 import { ACADEMY_ID } from "../../config/academy";
-import { handleJoin } from "../../utils/joinHandler.js";
 import "./Hero.css";
 
-const positionsList = [
-  "حارس مرمى (GK)",
-  "قلب دفاع (CB)",
-  "ظهير أيمن (RB)",
-  "ظهير أيسر (LB)",
-  "وسط مدافع (CDM)",
-  "وسط ملعب (CM)",
-  "وسط مهاجم (AM)",
-  "جناح أيمن (RW/RM)",
-  "جناح أيسر (LW/LM)",
-  "مهاجم متأخر (SS)",
-  "رأس حربة (ST)",
+// const countries = [
+//   { code: "+20", label: "🇪🇬 +20" },
+//   { code: "+966", label: "🇸🇦 +966" },
+//   { code: "+971", label: "🇦🇪 +971" },
+//   { code: "+965", label: "🇰🇼 +965" },
+//   { code: "+973", label: "🇧🇭 +973" },
+//   { code: "+974", label: "🇶🇦 +974" },
+//   { code: "+968", label: "🇴🇲 +968" },
+//   { code: "+962", label: "🇯🇴 +962" },
+//   { code: "+961", label: "🇱🇧 +961" },
+//   { code: "+964", label: "🇮🇶 +964" },
+//   { code: "+970", label: "🇵🇸 +970" },
+//   { code: "+218", label: "🇱🇾 +218" },
+//   { code: "+216", label: "🇹🇳 +216" },
+//   { code: "+213", label: "🇩🇿 +213" },
+//   { code: "+212", label: "🇲🇦 +212" },
+//   { code: "+249", label: "🇸🇩 +249" },
+//   { code: "+967", label: "🇾🇪 +967" },
+// ];
+
+const positionKeys = [
+  "goalkeeper",
+  "centerBack",
+  "rightBack",
+  "leftBack",
+  "defensiveMidfielder",
+  "centralMidfielder",
+  "attackingMidfielder",
+  "rightWinger",
+  "leftWinger",
+  "secondStriker",
+  "striker",
 ];
 
-// تعديل القالب لتضمين قائمة أكواد الدول مدمجة بشكل مرن ومثالي مع التصميم الداخلي
-const registrationFormTemplate = `
-<div class="swal-player-form">
+const escapeHtml = (value) =>
+  String(value ?? "").replace(/[&<>"']/g, (char) => {
+    const entities = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    };
 
-  <div class="swal-image-wrapper">
-    <div id="imagePicker" class="swal-image-picker">
-      <img
-        id="preview"
-        class="swal-preview"
-        style="display:none"
-      />
+    return entities[char];
+  });
 
-      <div id="placeholderIcon" class="swal-placeholder">
-        👤
+const createRegistrationFormTemplate = (branches, t, isArabic) => {
+  const positions = positionKeys.map((key) => ({
+    value: t(`hero.registration.positions.${key}`),
+    label: t(`hero.registration.positions.${key}`),
+  }));
+
+  return `
+    <div class="swal-player-form" dir="${isArabic ? "rtl" : "ltr"}">
+      <div class="swal-image-wrapper">
+        <div id="imagePicker" class="swal-image-picker">
+          <img
+            id="preview"
+            class="swal-preview"
+            style="display:none"
+            alt="${escapeHtml(t("hero.registration.image"))}"
+          />
+          <div id="placeholderIcon" class="swal-placeholder">
+            👤
+          </div>
+          <div class="swal-plus">+</div>
+        </div>
+        <input
+          type="file"
+          id="fileInput"
+          accept="image/jpeg,image/png,image/webp"
+          hidden
+        />
+        <p class="swal-hint">
+          ${escapeHtml(t("hero.registration.imageHint"))} *
+        </p>
       </div>
-
-      <div class="swal-plus">+</div>
+      <div class="swal-grid">
+        <input
+          id="player-name"
+          type="text"
+          maxlength="100"
+          placeholder="${escapeHtml(t("hero.registration.playerName"))} *"
+        />
+        <input
+          id="birth-date"
+          type="date"
+          aria-label="${escapeHtml(t("hero.registration.birthDate"))}"
+        />
+        <select id="player-position">
+          <option value="">
+            ${escapeHtml(t("hero.registration.selectPosition"))} *
+          </option>
+          ${positions
+            .map(
+              (position) => `
+                <option value="${escapeHtml(position.value)}">
+                  ${escapeHtml(position.label)}
+                </option>
+              `
+            )
+            .join("")}
+        </select>
+        <select id="player-branch">
+          <option value="">
+            ${escapeHtml(t("hero.registration.selectBranch"))} *
+          </option>
+          ${branches
+            .map(
+              (branch) => `
+                <option value="${escapeHtml(branch.id)}">
+                  ${escapeHtml(branch.branch_name)}
+                </option>
+              `
+            )
+            .join("")}
+        </select>
+        <input
+          id="parent-phone"
+          type="tel"
+          inputmode="numeric"
+          pattern="[0-9]*"
+          maxlength="11"
+          oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+          placeholder="${escapeHtml(t("hero.registration.phone"))} *"
+        />
+        <textarea
+          id="medical-notes"
+          placeholder="${escapeHtml(t("hero.registration.medicalNotes"))}"
+          rows="3"
+          maxlength="1000"
+        ></textarea>
+        <div class="swal-declaration">
+          <p>
+            <strong>
+              ${escapeHtml(t("hero.registration.declarationTitle"))}:
+            </strong>
+            <br>
+            ${escapeHtml(t("hero.registration.declaration"))}
+          </p>
+        </div>
+      </div>
     </div>
+  `;
+};
 
-    <input
-      type="file"
-      id="fileInput"
-      accept="image/*"
-      hidden
-    />
+const compressImage = async (file, t) => {
+  if (!file || !file.type.startsWith("image/")) {
+    throw new Error(t("hero.registration.invalidImage"));
+  }
 
-    <p class="swal-hint">
-      اضغط لإضافة صورة اللاعب
-    </p>
-  </div>
+  if (file.size > 10 * 1024 * 1024) {
+    throw new Error(t("hero.registration.largeImage"));
+  }
 
-  <div class="swal-grid">
+  return imageCompression(file, {
+    maxSizeMB: 0.1,
+    maxWidthOrHeight: 1000,
+    useWebWorker: true,
+    fileType: "image/jpeg",
+    initialQuality: 0.7,
+  });
+};
 
-    <input
-      id="player-name"
-      placeholder="اسم اللاعب *"
-    />
+const formatLocalDate = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
 
-    <input
-      id="birth-date"
-      type="text"
-      placeholder="تاريخ الميلاد *"
-      onfocus="(this.type='date')"
-      onblur="(this.value ? this.type='date' : this.type='text')"
-    />
+  return `${year}-${month}-${day}`;
+};
 
-    <select id="player-position">
-      <option value="">اختر المركز *</option>
-      ${positionsList
-        .map(
-          (p) =>
-            `<option value="${p}">${p}</option>`
-        )
-        .join("")}
-    </select>
+const getDateYearsAgo = (years) => {
+  const date = new Date();
+  date.setFullYear(date.getFullYear() - years);
 
-    <select id="player-branch">
-      <option value="">اختر الفرع *</option>
-      <option value="الفرع الرئيسي">الفرع الرئيسي</option> 
-      <option value="الفرع 2">الفرع 2</option> 
-    </select>
+  return formatLocalDate(date);
+};
 
-    <div class="swal-phone-group" style="display: flex; gap: 8px; direction: ltr; grid-column: span 1;">
-      <select id="player-country" class="form-select" style="width: 110px; font-size: 13px; border: 1px solid #ccc; border-radius: 6px; padding: 0 4px; background-color: #fff;">
-        <option value="+20" selected>🇪🇬 +20</option>
-        <option value="+966">🇸🇦 +966</option>
-        <option value="+971">🇦🇪 +971</option>
-        <option value="+965">🇰🇼 +965</option>
-        <option value="+973">🇧🇭 +973</option>
-        <option value="+974">🇶🇦 +974</option>
-        <option value="+968">🇴🇲 +968</option>
-        <option value="+962">🇯🇴 +962</option>
-        <option value="+961">🇱🇧 +961</option>
-        <option value="+964">🇮🇶 +964</option>
-        <option value="+970">🇵🇸 +970</option>
-        <option value="+218">🇱🇾 +218</option>
-        <option value="+216">🇹🇳 +216</option>
-        <option value="+213">🇩🇿 +213</option>
-        <option value="+212">🇲🇦 +212</option>
-        <option value="+249">🇸🇩 +249</option>
-        <option value="+967">🇾🇪 +967</option>
-      </select>
-      <input
-        id="parent-phone"
-        placeholder="رقم الهاتف *"
-        type="tel"
-        style="flex: 1; margin: 0; text-align: right;"
-      />
-    </div>
+const isValidDate = (value) => {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value || "")) {
+    return false;
+  }
 
-    <textarea
-      id="medical-notes"
-      placeholder="هل يوجد مشاكل صحية؟ (اختياري)"
-      rows="3"
-    ></textarea>
+  const [year, month, day] = value.split("-").map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
 
-  </div>
+  return (
+    date.getUTCFullYear() === year &&
+    date.getUTCMonth() === month - 1 &&
+    date.getUTCDate() === day
+  );
+};
 
-</div>
-`;
+const normalizePhone = (phoneValue, parentPhone) => {
+  let phone = String(phoneValue || "").replace(/\D/g, "");
+  const dialCode = String(parentPhone || "").replace(/\D/g, "");
 
-const compressImage = async (file) => {
-  try {
-    const compressed = await imageCompression(file, {
-      maxSizeMB: 0.1,
-      maxWidthOrHeight: 1000,
-      useWebWorker: true,
-      fileType: "image/jpeg",
-      initialQuality: 0.7,
-    });
+  if (!phone) return null;
 
-    return compressed;
-  } catch (error) {
-    Swal.fire({
-      icon: "error",
-      title: "خطأ في الصورة",
-      text: error.message,
-      scrollbarPadding: false,
-    });
+  if (dialCode && phone.startsWith(dialCode)) {
+    phone = phone.slice(dialCode.length);
+  }
 
+  if (phone.startsWith("0")) {
+    phone = phone.slice(1);
+  }
+
+  if (phone.length < 7 || phone.length > 15) {
     return null;
   }
+
+  const internationalPhone = `${parentPhone}${phone}`;
+  const totalDigits = internationalPhone.replace(/\D/g, "");
+
+  if (totalDigits.length > 15) {
+    return null;
+  }
+
+  return internationalPhone;
+};
+
+const getStorageFileName = () => {
+  if (typeof crypto !== "undefined" && crypto.randomUUID) {
+    return `${crypto.randomUUID()}.jpg`;
+  }
+
+  return `${Date.now()}-${Math.random().toString(36).slice(2)}.jpg`;
 };
 
 export default function HeroSection() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+
+  const isArabic = i18n.language?.startsWith("ar");
 
   const [players, setPlayers] = useState(0);
   const [coaches, setCoaches] = useState(0);
   const [championships, setChampionships] = useState(0);
   const [playerCode, setPlayerCode] = useState("");
 
+  const registrationText = (key) =>
+    t(`hero.registration.${key}`);
+
   const handleSearch = async () => {
     const trimmedCode = playerCode.trim();
+
     if (!trimmedCode) {
       Swal.fire({
         icon: "warning",
         title: t("hero.search.enterCode"),
         scrollbarPadding: false,
       });
+
       return;
     }
 
     try {
-      const { data, error } = await supabase
-        .from("players")
-        .select("new_id, player_code")
-        .eq("academy_id", ACADEMY_ID)
-        .eq("player_code", trimmedCode)
-        .single();
+      const { data, error } = await supabase.rpc(
+        "get_public_player_report",
+        {
+          p_academy_id: ACADEMY_ID,
+          p_player_code: trimmedCode,
+        }
+      );
 
-      if (error || !data) {
+      if (error) {
+        console.error("Player report search error:", error);
+        throw error;
+      }
+
+      // التأكد من وجود اللاعب
+      if (!data?.player) {
         Swal.fire({
           icon: "error",
           title: t("hero.search.notFound"),
           text: t("hero.search.checkCode"),
           scrollbarPadding: false,
         });
+
         return;
       }
 
-      navigate(`/report/${trimmedCode}`);
-    } catch (err) {
+      navigate(`/report/${trimmedCode}`, {
+        state: {
+          reportData: data,
+        },
+      });
+    } catch (error) {
+      console.error("Hero search error:", error);
+
       Swal.fire({
         icon: "error",
         title: t("hero.search.error"),
@@ -198,219 +311,446 @@ export default function HeroSection() {
     }
   };
 
-  const startCounter = (target, setState) => {
-    let count = 0;
-    const speed = 20;
-    const increment = target / 50; 
+  const handleRegistration = async () => {
+    let imageFile = null;
+    let previewUrl = null;
 
-    const update = () => {
-      count += increment;
-      if (count < target) {
-        setState(Math.ceil(count));
-        setTimeout(update, speed);
-      } else {
-        setState(target);
+    try {
+      const { data: branches, error: branchesError } = await supabase.rpc(
+        "get_public_registration_branches",
+        {
+          p_academy_id: ACADEMY_ID,
+        }
+      );
+
+      if (branchesError) {
+        throw branchesError;
       }
-    };
-    update();
+
+      const availableBranches = Array.isArray(branches)
+        ? branches.filter(
+            (branch) =>
+              branch?.id !== null &&
+              branch?.id !== undefined &&
+              branch?.branch_name
+          )
+        : [];
+
+      if (availableBranches.length === 0) {
+        Swal.fire({
+          icon: "warning",
+          title: registrationText("noBranches"),
+          text: registrationText("noBranchesMessage"),
+          scrollbarPadding: false,
+        });
+        return;
+      }
+
+      const handleImageClick = () => {
+        document.getElementById("fileInput")?.click();
+      };
+
+      const handleImageChange = async (event) => {
+        const file = event.target.files?.[0];
+
+        if (!file) return;
+
+        try {
+          const compressed = await compressImage(file, t);
+
+          imageFile = compressed;
+
+          if (previewUrl) {
+            URL.revokeObjectURL(previewUrl);
+          }
+
+          previewUrl = URL.createObjectURL(compressed);
+
+          const preview = document.getElementById("preview");
+          const placeholder = document.getElementById("placeholderIcon");
+
+          if (preview) {
+            preview.src = previewUrl;
+            preview.style.display = "block";
+          }
+
+          if (placeholder) {
+            placeholder.style.display = "none";
+          }
+
+          const picker = document.getElementById("imagePicker");
+
+          if (picker) {
+            picker.style.border = "";
+          }
+        } catch (error) {
+          imageFile = null;
+
+          Swal.showValidationMessage(
+            error.message || registrationText("imageProcessingError")
+          );
+        }
+      };
+
+      const result = await Swal.fire({
+        title: registrationText("title"),
+        html: createRegistrationFormTemplate(
+          availableBranches,
+          t,
+          isArabic
+        ),
+        showCancelButton: true,
+        confirmButtonText: registrationText("submit"),
+        cancelButtonText: registrationText("cancel"),
+        scrollbarPadding: false,
+        focusConfirm: false,
+
+        didOpen: () => {
+          document
+            .getElementById("imagePicker")
+            ?.addEventListener("click", handleImageClick);
+
+          document
+            .getElementById("fileInput")
+            ?.addEventListener("change", handleImageChange);
+
+          const birthDateInput = document.getElementById("birth-date");
+
+          if (birthDateInput) {
+            birthDateInput.max = getDateYearsAgo(4);
+            birthDateInput.min = getDateYearsAgo(20);
+          }
+        },
+
+        willClose: () => {
+          document
+            .getElementById("imagePicker")
+            ?.removeEventListener("click", handleImageClick);
+
+          document
+            .getElementById("fileInput")
+            ?.removeEventListener("change", handleImageChange);
+
+          if (previewUrl) {
+            URL.revokeObjectURL(previewUrl);
+          }
+        },
+
+        preConfirm: () => {
+          const playerName = document
+            .getElementById("player-name")
+            ?.value.trim();
+
+          const birthDate = document.getElementById("birth-date")?.value;
+
+          const position = document.getElementById("player-position")?.value;
+
+          const branchId = document.getElementById("player-branch")?.value;
+
+          const phoneValue = document
+            .getElementById("parent-phone")
+            ?.value.trim();
+
+          const phone = normalizePhone(phoneValue, "+20");
+
+          const medicalNotes = document
+            .getElementById("medical-notes")
+            ?.value.trim();
+
+          if (!imageFile) {
+            const picker = document.getElementById("imagePicker");
+
+            if (picker) {
+              picker.style.border = "2px solid #dc3545";
+            }
+
+            return Swal.showValidationMessage(
+              registrationText("imageRequired")
+            );
+          }
+
+          if (
+            !playerName ||
+            !birthDate ||
+            !position ||
+            !branchId ||
+            !phoneValue
+          ) {
+            return Swal.showValidationMessage(
+              registrationText("completeFields")
+            );
+          }
+
+          if (!isValidDate(birthDate)) {
+            return Swal.showValidationMessage(
+              registrationText("invalidDate")
+            );
+          }
+
+          const minDate = getDateYearsAgo(20);
+          const maxDate = getDateYearsAgo(4);
+
+          if (birthDate < minDate || birthDate > maxDate) {
+            return Swal.showValidationMessage(
+              registrationText("invalidAge")
+            );
+          }
+
+          const selectedBranch = availableBranches.find(
+            (branch) => String(branch.id) === String(branchId)
+          );
+
+          if (!selectedBranch) {
+            return Swal.showValidationMessage(
+              registrationText("invalidBranch")
+            );
+          }
+
+          if (!phone) {
+            return Swal.showValidationMessage(
+              registrationText("invalidPhone")
+            );
+          }
+
+          return {
+            playerName,
+            birthDate,
+            position,
+            branchId: selectedBranch.id,
+            phone,
+            medicalNotes,
+          };
+        },
+      });
+
+      if (!result.isConfirmed) return;
+
+      Swal.fire({
+        title: registrationText("loading"),
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => Swal.showLoading(),
+      });
+
+      let uploadedFilePath = null;
+
+      try {
+        const fileName = getStorageFileName();
+
+        uploadedFilePath =
+          `academies/${ACADEMY_ID}/registration-requests/${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from("avatars")
+          .upload(uploadedFilePath, imageFile, {
+            cacheControl: "3600",
+            upsert: false,
+            contentType: "image/jpeg",
+          });
+
+        if (uploadError) {
+          throw uploadError;
+        }
+
+        const { data: publicUrlData } = supabase.storage
+          .from("avatars")
+          .getPublicUrl(uploadedFilePath);
+
+        const imageUrl = publicUrlData?.publicUrl;
+
+        if (!imageUrl) {
+          throw new Error(registrationText("imageUrlError"));
+        }
+
+        const { error: insertError } = await supabase
+          .from("registration_requests")
+          .insert([
+            {
+              academy_id: ACADEMY_ID,
+              player_name: result.value.playerName,
+              birth_date: result.value.birthDate,
+              position: result.value.position,
+              branch_id: result.value.branchId,
+              parent_phone: result.value.phone,
+              medical_notes: result.value.medicalNotes || null,
+              player_image: imageUrl,
+              status: "pending",
+            },
+          ]);
+
+        if (insertError) {
+          throw insertError;
+        }
+
+        Swal.fire({
+          icon: "success",
+          title: registrationText("success"),
+          text: registrationText("successMessage"),
+          scrollbarPadding: false,
+        });
+      } catch (error) {
+        if (uploadedFilePath) {
+          const { error: removeError } = await supabase.storage
+            .from("avatars")
+            .remove([uploadedFilePath]);
+
+          if (removeError) {
+            console.error("Failed to remove uploaded image:", removeError);
+          }
+        }
+
+        throw error;
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: registrationText("error"),
+        text: error.message || registrationText("failed"),
+        scrollbarPadding: false,
+      });
+    }
   };
 
   useEffect(() => {
+    const timers = [];
+
+    const startCounter = (target, setState) => {
+      let count = 0;
+      const increment = target / 50;
+
+      const timer = window.setInterval(() => {
+        count += increment;
+
+        if (count >= target) {
+          setState(target);
+          window.clearInterval(timer);
+        } else {
+          setState(Math.ceil(count));
+        }
+      }, 20);
+
+      timers.push(timer);
+    };
+
     startCounter(170, setPlayers);
     startCounter(16, setCoaches);
     startCounter(12, setChampionships);
+
+    return () => {
+      timers.forEach((timer) => window.clearInterval(timer));
+    };
   }, []);
 
   return (
-    <section className="hero d-flex align-items-center">
-      <div className="container text-white text-center">
-        <span className="badge bg-primary mb-3">
-          {t("hero.badge")} ⚽
-        </span>
+    <section className="hero">
+      <div className="hero-container">
+        <div className="hero-main">
+          {/* Content */}
+          <div className="hero-content">
+            <div className="hero-badge">
+              <span className="hero-badge-icon">⚽</span>
+              <span>{t("hero.badge")}</span>
+            </div>
 
-        <h1 className="fw-bold mb-3">{t("hero.title")}</h1>
-        <p className="mb-4">{t("hero.desc")}</p>
+            <h1 className="hero-title">
+              {t("hero.title")}
+            </h1>
 
-        <div className="d-flex justify-content-center gap-3 flex-wrap">
-          <button
-            className="btn btn-primary px-4 join-btn"
-            onClick={() => handleJoin({ type: "info", plan: t("hero.plan") })}
-          >
-            {t("hero.join")}
-          </button>
-          <button
-            className="btn btn-outline-light px-4"
-            onClick={async () => {
+            <p className="hero-description">
+              {t("hero.desc")}
+            </p>
 
-              let imageFile = null;
+            <div className="hero-highlights">
+              <div className="hero-highlight">
+                <span className="highlight-icon">✓</span>
+                <span>{t("hero.highlights.training")}</span>
+              </div>
+              <div className="hero-highlight">
+                <span className="highlight-icon">✓</span>
+                <span>{t("hero.highlights.followUp")}</span>
+              </div>
+              <div className="hero-highlight">
+                <span className="highlight-icon">✓</span>
+                <span>{t("hero.highlights.registration")}</span>
+              </div>
+            </div>
 
-              const handleImageClick = () =>
-                document.getElementById("fileInput")?.click();
+            <div className="hero-actions">
+              <button
+                type="button"
+                className="hero-register-btn"
+                onClick={handleRegistration}
+              >
+                <span>{registrationText("title")}</span>
+                <span className="hero-btn-arrow">
+                  {isArabic ? "←" : "→"}
+                </span>
+              </button>
+            </div>
 
-              const handleImageChange = async (e) => {
-                const file = e.target.files?.[0];
-                if (!file) return;
+            {/* Player Search */}
+            <div className="player-search-box">
+              <div className="search-heading">
+                <div className="search-icon">
+                  <FontAwesomeIcon icon={faSearch} />
+                </div>
+                <div>
+                  <h5>{t("hero.search.title")}</h5>
+                  <p>{t("hero.search.description")}</p>
+                </div>
+              </div>
 
-                const compressed = await compressImage(file);
-                if (!compressed) return;
+              <div className="search-form">
+                <input
+                  type="text"
+                  className="search-input"
+                  placeholder={t("hero.search.placeholder")}
+                  value={playerCode}
+                  onChange={(event) => setPlayerCode(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") handleSearch();
+                  }}
+                />
+                <button
+                  type="button"
+                  className="btn-search-custom"
+                  onClick={handleSearch}
+                  aria-label={t("hero.search.title")}
+                >
+                  <FontAwesomeIcon icon={faSearch} />
+                </button>
+              </div>
+            </div>
+          </div>
 
-                imageFile = compressed;
-                const reader = new FileReader();
+          {/* Visual */}
+          <div className="hero-visual">
+            <div className="hero-image">
+              <div className="hero-image-overlay"></div>
+              <div className="hero-image-content">
+                <span className="hero-image-line"></span>
+                <p>{t("hero.imageCaption")}</p>
+              </div>
+            </div>
 
-                reader.onload = (ev) => {
-                  const preview = document.getElementById("preview");
-                  const placeholder = document.getElementById("placeholderIcon");
+            <div className="hero-image-number">
+              <span>01</span>
+              <span className="number-line"></span>
+              <span>03</span>
+            </div>
 
-                  preview.src = ev.target.result;
-                  preview.style.display = "block";
-                  placeholder.style.display = "none";
-                };
-
-                reader.readAsDataURL(imageFile);
-              };
-
-              const result = await Swal.fire({
-                title: "طلب انضمام لاعب",
-                html: registrationFormTemplate,
-                showCancelButton: true,
-                confirmButtonText: "إرسال الطلب",
-                cancelButtonText: "إلغاء",
-                scrollbarPadding: false,
-
-                didOpen: () => {
-                  document.getElementById("imagePicker")?.addEventListener("click", handleImageClick);
-                  document.getElementById("fileInput")?.addEventListener("change", handleImageChange);  
-                  
-                  const birthDateInput = document.getElementById("birth-date");
-                  if (birthDateInput) {
-                    const today = new Date();
-                    const maxYear = today.getFullYear() - 4;
-                    const maxDate = `${maxYear}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-                    const minYear = today.getFullYear() - 20;
-                    const minDate = `${minYear}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-                    
-                    birthDateInput.setAttribute("max", maxDate); 
-                    birthDateInput.setAttribute("min", minDate); 
-                  }
-                },
-
-                willClose: () => {
-                  document.getElementById("imagePicker")?.removeEventListener("click", handleImageClick);
-                  document.getElementById("fileInput")?.removeEventListener("change", handleImageChange);
-                },
-
-                preConfirm: () => {
-                  const playerName = document.getElementById("player-name")?.value.trim();
-                  const birthDate = document.getElementById("birth-date")?.value;
-                  const position = document.getElementById("player-position")?.value;
-                  const branch = document.getElementById("player-branch")?.value;  
-                  const countryCode = document.getElementById("player-country")?.value || "";
-                  let phone = document.getElementById("parent-phone")?.value.trim();
-                  const medicalNotes = document.getElementById("medical-notes")?.value;
-
-                  if (!playerName || !birthDate || !position || !branch || !phone) {
-                    return Swal.showValidationMessage("أكمل الحقول المطلوبة");
-                  }
-
-                  // الحفاظ على مرونة النظام الدولي: تنظيف رقم الهاتف المدخل ودخوله للـ Database مدمجاً بكود الدولة المعين
-                  phone = phone.replace(/\D/g, "");
-                  if (!phone) {
-                    return Swal.showValidationMessage("يرجى إدخال رقم هاتف صحيح.");
-                  }
-
-                  // إزالة الصفر الافتتاحي في حال تمت كتابته خطأً من قبل ولي الأمر
-                  if (phone.startsWith("0")) {
-                    phone = phone.substring(1);
-                  }
-
-                  // الدمج النهائي للرقم بصيغته الدولية الكاملة
-                  phone = `${countryCode}${phone}`;
-
-                  return {
-                    playerName,
-                    birthDate,
-                    position,
-                    branch,
-                    phone,
-                    medicalNotes,
-                  };
-                },
-              });
-
-              if (!result.isConfirmed) return;
-
-              try {
-                Swal.fire({
-                  title: "جاري إرسال الطلب...",
-                  allowOutsideClick: false,
-                  didOpen: () => Swal.showLoading(),
-                });
-
-                let imageUrl = null;
-
-                if (imageFile) {
-                  const filePath = `requests/${Date.now()}.jpg`;
-                  const { error: uploadError } = await supabase.storage.from("avatars").upload(filePath, imageFile);
-                  if (uploadError) throw uploadError;
-
-                  const { data } = supabase.storage.from("avatars").getPublicUrl(filePath);
-                  imageUrl = data.publicUrl;
-                }
-
-                const { error } = await supabase
-                  .from("registration_requests")
-                  .insert([
-                    {
-                      academy_id: ACADEMY_ID,
-                      player_name: result.value.playerName,
-                      birth_date: result.value.birthDate,
-                      position: result.value.position,
-                      branch: result.value.branch,
-                      parent_phone: result.value.phone, // سيتم تخزينه بالصيغة الدولية الموحدة الكاملة (+20xxxxxxxx)
-                      medical_notes: result.value.medicalNotes,
-                      player_image: imageUrl,
-                      status: "pending",
-                    },
-                  ]);
-
-                if (error) throw error;
-
-                Swal.fire({
-                  icon: "success",
-                  title: "تم إرسال الطلب بنجاح",
-                  text: "سيتم مراجعة البيانات والتواصل معكم قريباً",
-                });
-              } catch (err) {
-                Swal.fire({
-                  icon: "error",
-                  title: "حدث خطأ",
-                  text: err.message,
-                });
-              }
-            }}
-          >
-            تسجيل لاعب جديد
-          </button>
-        </div>
-
-        <div className="player-search-box mt-4">
-          <h5 className="mb-3">{t("hero.search.title")}</h5>
-          <div className="d-flex justify-content-center gap-2 flex-wrap">
-            <input
-              type="text"
-              className="form-control search-input"
-              placeholder={t("hero.search.placeholder")}
-              value={playerCode}
-              onChange={(e) => setPlayerCode(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-            />
-            <button className="btn btn-primary btn-search-custom" onClick={handleSearch}>
-              <FontAwesomeIcon icon={faSearch} />
-            </button>
+            <div className="hero-championship-card">
+              <div className="championship-icon">🏆</div>
+              <div>
+                <strong>{championships}+</strong>
+                <span>{t("hero.championships")}</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="stats hero-stats mt-5 d-flex justify-content-center gap-4 flex-wrap">
+        {/* Statistics */}
+        <div className="hero-stats">
           <StatItem value={players} label={t("hero.players")} plus />
           <StatItem value={coaches} label={t("hero.coaches")} />
           <StatItem value={championships} label={t("hero.championships")} plus />
@@ -426,6 +766,7 @@ const StatItem = ({ value, label, plus }) => (
       {value}
       {plus && <span className="text-primary"> +</span>}
     </h4>
+
     <span>{label}</span>
   </div>
 );

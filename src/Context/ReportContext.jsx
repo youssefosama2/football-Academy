@@ -1,100 +1,122 @@
-import React, { createContext, useContext, useState, useEffect, useCallback,} from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
+
+import { useLocation } from "react-router-dom";
 import { supabase } from "../utils/supabaseClient";
 import { ACADEMY_ID } from "../config/academy";
 
 const ReportContext = createContext();
 
-export const ReportProvider = ({ playerCode, evaluationId, children,}) => {
+export const ReportProvider = ({
+  playerCode,
+  evaluationId,
+  children,
+}) => {
+  const location = useLocation();
+
+  // البيانات التي تم جلبها بالفعل من HeroSection
+  const navigationReport = location.state?.reportData;
+
   const [playerData, setPlayerData] = useState(null);
   const [currentEvaluation, setCurrentEvaluation] = useState(null);
   const [allEvaluations, setAllEvaluations] = useState([]);
+  const [academyStats, setAcademyStats] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const loadReportData = useCallback(async () => {
-    if (!playerCode) return;
+    if (!playerCode) {
+      setPlayerData(null);
+      setCurrentEvaluation(null);
+      setAllEvaluations([]);
+      setAcademyStats(null);
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
-      const { data: player, error: playerError } = await supabase
-        .from("players")
-        .select("*")
-        .eq("academy_id", ACADEMY_ID)
-        .eq("player_code", playerCode)
-        .single();
-      console.log("PLAYER =>", player);
-      console.log("PLAYER ERROR =>", playerError);
 
-      if (playerError || !player) {
+      let reportData = null;
+
+      // استخدام البيانات الموجودة في navigation state
+      // بشرط أن تكون تخص نفس كود اللاعب
+      if (
+        navigationReport?.player &&
+        String(navigationReport.player.player_code).trim() ===
+          String(playerCode).trim()
+      ) {
+        reportData = navigationReport;
+      } else {
+        // تحميل التقرير عند فتح الرابط مباشرة
+        const { data, error } = await supabase.rpc(
+          "get_public_player_report",
+          {
+            p_academy_id: ACADEMY_ID,
+            p_player_code: String(playerCode).trim(),
+          }
+        );
+
+        if (error) {
+          throw error;
+        }
+
+        reportData = data;
+      }
+
+      // التحقق من وجود اللاعب
+      if (!reportData?.player) {
         setPlayerData(null);
         setCurrentEvaluation(null);
         setAllEvaluations([]);
+        setAcademyStats(null);
         return;
       }
+
+      const player = reportData.player;
+
+      const playerEvaluations = Array.isArray(reportData.evaluations)
+        ? reportData.evaluations
+        : [];
 
       setPlayerData(player);
-
-      const { data: allRows, error: allRowsError } = await supabase
-        .from("evaluations")
-        .select("*")
-        .eq("academy_id", ACADEMY_ID)
-        .order("created_at", { ascending: false });
-
-      if (allRowsError) {
-        console.error(allRowsError);
-        return;
-      }
-
-      const playerEvaluations =
-        allRows?.filter(
-          (item) =>
-            String(item.player_code).trim() ===
-            String(playerCode).trim()
-        ) || [];
-
-      console.log(
-        "PLAYER EVALUATIONS =>",
-        playerEvaluations
-      );
-      console.log(
-  "CURRENT EVALUATION =>",
-  playerEvaluations[0]
-);
-
       setAllEvaluations(playerEvaluations);
-      console.log("CURRENT EVALUATION ID =", evaluationId);
+      setAcademyStats(reportData.academyStats || null);
 
-console.log(
-  "FOUND EVALUATION =",
-  playerEvaluations.find(
-    (e) => String(e.id) === String(evaluationId)
-  )
-);
-
+      // اختيار التقييم الحالي
       if (playerEvaluations.length > 0) {
         const selected = evaluationId
           ? playerEvaluations.find(
-              (e) =>
-                String(e.id) === String(evaluationId)
+              (evaluation) =>
+                String(evaluation.id) === String(evaluationId)
             )
           : playerEvaluations[0];
 
-        setCurrentEvaluation(
-          selected || playerEvaluations[0]
-        );
+        setCurrentEvaluation(selected || playerEvaluations[0]);
       } else {
         setCurrentEvaluation(null);
       }
-    } catch (err) {
-      console.error("ReportContext Error:", err);
+
+    } catch (error) {
+      console.error("ReportContext Error:", error);
+
+      setPlayerData(null);
+      setCurrentEvaluation(null);
+      setAllEvaluations([]);
+      setAcademyStats(null);
+
     } finally {
       setLoading(false);
     }
-  }, [playerCode, evaluationId]);
-  
+  }, [playerCode, evaluationId, navigationReport]);
 
   useEffect(() => {
     loadReportData();
   }, [loadReportData]);
-  
 
   return (
     <ReportContext.Provider
@@ -102,6 +124,7 @@ console.log(
         playerData,
         currentEvaluation,
         allEvaluations,
+        academyStats,
         loading,
       }}
     >

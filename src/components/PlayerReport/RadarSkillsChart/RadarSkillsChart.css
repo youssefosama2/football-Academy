@@ -1,0 +1,311 @@
+.radar-skills-card {
+  --fifa-bg: #ffffff;
+  --fifa-surface: #f8fafc;
+  --fifa-text: #172033;
+  --fifa-muted: #64748b;
+  --fifa-grid-color: #e2e8f0;
+  --fifa-axis-color: #64748b;
+
+  position: relative;
+  padding: 20px;
+  border-radius: 18px;
+  background: var(--fifa-bg);
+  border: 1px solid #e8edf3;
+  box-shadow: 0 5px 20px rgba(15, 23, 42, 0.05);
+  color: var(--fifa-text);
+  overflow: hidden;
+  font-family: "Cairo", sans-serif;
+}
+
+.radar-skills-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  inset-inline: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #15803d, #4ade80);
+}
+
+/* Player Header */
+
+.fifa-player-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--fifa-grid-color);
+}
+
+.fifa-player-profile {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+}
+
+.fifa-player-avatar {
+  width: 76px;
+  height: 76px;
+  flex-shrink: 0;
+  padding: 3px;
+  border-radius: 13px;
+  background: linear-gradient(145deg, #16a34a, #86efac);
+}
+
+.fifa-player-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+
+.fifa-player-details {
+  min-width: 0;
+}
+
+.fifa-player-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #16a34a;
+  font-size: 11px;
+  font-weight: 800;
+  margin-bottom: 3px;
+}
+
+.fifa-player-details h3 {
+  color: var(--fifa-text);
+  font-size: 17px;
+  font-weight: 800;
+  margin: 0 0 4px;
+  overflow-wrap: anywhere;
+}
+
+.fifa-player-position {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: var(--fifa-surface);
+  color: var(--fifa-muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Overall Rating */
+
+.fifa-overall {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-width: 75px;
+  padding: 7px 10px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #14532d, #166534);
+  color: #fff;
+}
+
+.fifa-overall > span {
+  font-size: 11px;
+  font-weight: 800;
+  color: #bbf7d0;
+}
+
+.fifa-overall strong {
+  font-size: 30px;
+  line-height: 1.1;
+  font-weight: 900;
+}
+
+.fifa-overall small {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  color: #dcfce7;
+}
+
+/* Chart */
+
+.fifa-chart-area {
+  padding: 12px 0 8px;
+}
+
+.fifa-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.fifa-section-heading span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--fifa-text);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.fifa-section-heading svg {
+  color: #16a34a;
+}
+
+.fifa-radar-wrapper {
+  width: 100%;
+  height: 225px;
+  max-width: 390px;
+  margin: 0 auto;
+}
+
+.fifa-radar-placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+/* Skills */
+
+.fifa-skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 13px 18px;
+  padding-top: 13px;
+  border-top: 1px solid var(--fifa-grid-color);
+}
+
+.fifa-skill-item {
+  min-width: 0;
+}
+
+.fifa-skill-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  margin-bottom: 6px;
+}
+
+.fifa-skill-info span {
+  color: var(--fifa-muted);
+  font-size: 11px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fifa-skill-info strong {
+  flex-shrink: 0;
+  color: var(--fifa-text);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.fifa-skill-track {
+  width: 100%;
+  height: 5px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--fifa-grid-color);
+}
+
+.fifa-skill-progress {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #16a34a, #4ade80);
+  transition: width 0.5s ease;
+}
+
+/* Loading */
+
+.radar-loading {
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fifa-muted);
+  font-weight: 700;
+}
+
+/* Dark Mode */
+
+[data-theme="dark"] .radar-skills-card {
+  --fifa-bg: #1E293B;
+  --fifa-surface: #263442;
+  --fifa-text: #f1f5f9;
+  --fifa-muted: #a8b5c4;
+  --fifa-grid-color: #344454;
+  --fifa-axis-color: #cbd5e1;
+
+  border-color: #344454;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+[data-theme="dark"] .radar-skills-card .recharts-polar-angle-axis-tick text {
+  fill: #ffffff !important;
+}
+
+/* Responsive */
+
+@media (max-width: 767px) {
+  .radar-skills-card {
+    padding: 15px;
+    border-radius: 15px;
+  }
+
+  .fifa-player-avatar {
+    width: 65px;
+    height: 65px;
+  }
+
+  .fifa-player-details h3 {
+    font-size: 14px;
+  }
+
+  .fifa-overall {
+    min-width: 65px;
+    padding: 6px 8px;
+  }
+
+  .fifa-overall strong {
+    font-size: 25px;
+  }
+
+  .fifa-radar-wrapper {
+    height: 205px;
+  }
+
+  .fifa-skills-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .fifa-skill-info span {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 380px) {
+  .fifa-player-header {
+    gap: 7px;
+  }
+
+  .fifa-player-profile {
+    gap: 8px;
+  }
+
+  .fifa-player-avatar {
+    width: 55px;
+    height: 55px;
+  }
+
+  .fifa-player-details h3 {
+    font-size: 12px;
+  }
+
+  .fifa-radar-wrapper {
+    height: 185px;
+  }
+}

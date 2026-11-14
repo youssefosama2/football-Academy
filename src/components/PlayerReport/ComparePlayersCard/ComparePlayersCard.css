@@ -1,0 +1,189 @@
+/* =========================
+   COMPARE PLAYERS CARD
+========================= */
+
+.compare-card {
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 24px;
+    min-height: 250px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+.compare-card h3 {
+    margin: 0 0 24px;
+    color: #1b2559;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+
+/* =========================
+   COMPARE ITEM
+========================= */
+
+.compare-item {
+    margin-bottom: 20px;
+}
+
+.compare-item:last-child {
+    margin-bottom: 0;
+}
+
+.compare-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 8px;
+}
+
+.compare-top span:first-child {
+    color: #1b2559;
+    font-size: 13px;
+    font-weight: 600;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.compare-top span:last-child {
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+.compare-progress {
+    width: 100%;
+    height: 9px;
+    background: #edf2f7;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.compare-progress > div {
+    height: 100%;
+    border-radius: inherit;
+    min-width: 0;
+}
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+[data-theme="dark"] .compare-card {
+    background: #1e293b;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+[data-theme="dark"] .compare-card h3 {
+    color: #f8fafc;
+}
+
+[data-theme="dark"] .compare-top span:first-child {
+    color: #f8fafc;
+}
+
+[data-theme="dark"] .compare-top span:last-child {
+    color: #94a3b8;
+}
+
+[data-theme="dark"] .compare-progress {
+    background: #334155;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+    .compare-card {
+        padding: 18px;
+        border-radius: 18px;
+        min-height: auto;
+    }
+
+    .compare-card h3 {
+        font-size: 16px;
+        font-weight: 800;
+        margin-bottom: 22px;
+        line-height: 1.6;
+    }
+
+    .compare-item {
+        margin-bottom: 20px;
+    }
+
+    .compare-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .compare-top {
+        gap: 10px;
+        margin-bottom: 9px;
+        align-items: center;
+    }
+
+    .compare-top span:first-child {
+        font-size: 12px;
+        font-weight: 700;
+        min-width: 0;
+        line-height: 1.5;
+    }
+
+    .compare-top span:last-child {
+        font-size: 12px;
+        font-weight: 800;
+        flex-shrink: 0;
+    }
+
+    .compare-progress {
+        height: 9px;
+        border-radius: 20px;
+    }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 400px) {
+    .compare-card {
+        padding: 15px;
+        border-radius: 16px;
+    }
+
+    .compare-card h3 {
+        font-size: 15px;
+        margin-bottom: 18px;
+    }
+
+    .compare-item {
+        margin-bottom: 18px;
+    }
+
+    .compare-top {
+        gap: 8px;
+    }
+
+    .compare-top span:first-child {
+        font-size: 11px;
+    }
+
+    .compare-top span:last-child {
+        font-size: 11px;
+    }
+
+    .compare-progress {
+        height: 8px;
+    }
+}

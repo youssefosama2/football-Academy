@@ -1,94 +1,251 @@
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer, Tooltip } from "recharts";
+import {
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  Radar,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFutbol,
+  faStar,
+  faBolt,
+} from "@fortawesome/free-solid-svg-icons";
+
 import { useReport } from "../../../Context/ReportContext";
+import "./RadarSkillsChart.css";
+
+const SKILL_MAPPINGS = {
+  مهاجم: [
+    ["shooting", "التصويب"],
+    ["dribbling", "المراوغة"],
+    ["speed", "السرعة"],
+    ["footballIntelligence", "الذكاء الكروي"],
+    ["agility", "الرشاقة"],
+    ["technicalPerformance", "الأداء المهاري"],
+  ],
+
+  وسط: [
+    ["passing", "التمرير"],
+    ["visionLongPassing", "الرؤية والتمرير الطويل"],
+    ["stamina", "التحمل"],
+    ["footballIntelligence", "الذكاء الكروي"],
+    ["decisionMaking", "اتخاذ القرار"],
+    ["teamwork", "العمل الجماعي"],
+  ],
+
+  مدافع: [
+    ["strength", "القوة"],
+    ["speed", "السرعة"],
+    ["focus", "التركيز"],
+    ["footballIntelligence", "الذكاء الكروي"],
+    ["commitmentDiscipline", "الالتزام والانضباط"],
+    ["balanceCoordination", "الاتزان والتناسق"],
+  ],
+
+  حارس: [
+    ["focus", "التركيز"],
+    ["agility", "الرشاقة"],
+    ["strength", "القوة"],
+    ["personalityLeadership", "الشخصية والقيادة"],
+    ["decisionMaking", "اتخاذ القرار"],
+    ["footballIntelligence", "الذكاء الكروي"],
+  ],
+
+  default: [
+    ["technicalPerformance", "الأداء المهاري"],
+    ["stamina", "التحمل"],
+    ["footballIntelligence", "الذكاء الكروي"],
+    ["speed", "السرعة"],
+    ["passing", "التمرير"],
+    ["shooting", "التصويب"],
+  ],
+};
 
 const RadarSkillsChart = ({ radarInView }) => {
-  const { t } = useTranslation();
-  const { currentEvaluation, loading } = useReport();
+  const { t, i18n } = useTranslation();
 
-  const getValue = (scores, key) => Number(scores?.[key]) || 0;
+  const {
+    playerData,
+    currentEvaluation,
+    loading,
+  } = useReport();
+
+  const isRTL = i18n.dir() === "rtl";
 
   const radarData = useMemo(() => {
     const scores = currentEvaluation?.skills_scores || {};
     const position = currentEvaluation?.position || "";
 
+    let selectedSkills = SKILL_MAPPINGS.default;
+
     if (position.includes("مهاجم")) {
-      return [
-        { subject: t("report.radarSkills.shooting"), A: getValue(scores, "التصويب") },
-        { subject: t("report.radarSkills.dribbling"), A: getValue(scores, "المراوغة") },
-        { subject: t("report.radarSkills.speed"), A: getValue(scores, "السرعة") },
-        { subject: t("report.radarSkills.footballIQ"), A: getValue(scores, "الذكاء الكروي") },
-        { subject: t("report.radarSkills.agility"), A: getValue(scores, "الرشاقة") },
-        { subject: t("report.radarSkills.skillPerformance"), A: getValue(scores, "الأداء المهاري") }
-      ];
+      selectedSkills = SKILL_MAPPINGS["مهاجم"];
+    } else if (position.includes("وسط")) {
+      selectedSkills = SKILL_MAPPINGS["وسط"];
+    } else if (position.includes("مدافع")) {
+      selectedSkills = SKILL_MAPPINGS["مدافع"];
+    } else if (position.includes("حارس")) {
+      selectedSkills = SKILL_MAPPINGS["حارس"];
     }
 
-    if (position.includes("وسط")) {
-      return [
-        { subject: t("report.radarSkills.passing"), A: getValue(scores, "التمرير") },
-        { subject: t("report.radarSkills.longVision"), A: getValue(scores, "الرؤية والتمرير الطويل") },
-        { subject: t("report.radarSkills.endurance"), A: getValue(scores, "التحمل") },
-        { subject: t("report.radarSkills.footballIQ"), A: getValue(scores, "الذكاء الكروي") },
-        { subject: t("report.radarSkills.decisionMaking"), A: getValue(scores, "اتخاذ القرار") },
-        { subject: t("report.radarSkills.teamwork"), A: getValue(scores, "العمل الجماعي") }
-      ];
-    }
+    return selectedSkills.map(([translationKey, dbKey]) => ({
+      key: translationKey,
+      subject: t(
+        `ReportPage.radarSkillsChart.skills.${translationKey}`
+      ),
+      A: Number(scores[dbKey]) || 0,
+    }));
+  }, [currentEvaluation, t, i18n.language]);
 
-    if (position.includes("مدافع")) {
-      return [
-        { subject: t("report.radarSkills.strength"), A: getValue(scores, "القوة") },
-        { subject: t("report.radarSkills.speed"), A: getValue(scores, "السرعة") },
-        { subject: t("report.radarSkills.focus"), A: getValue(scores, "التركيز") },
-        { subject: t("report.radarSkills.footballIQ"), A: getValue(scores, "الذكاء الكروي") },
-        { subject: t("report.radarSkills.discipline"), A: getValue(scores, "الالتزام والانضباط") },
-        { subject: t("report.radarSkills.balance"), A: getValue(scores, "الاتزان والتناسق") }
-      ];
-    }
+  const overallRating =
+    currentEvaluation?.total_score != null
+      ? Math.round(Number(currentEvaluation.total_score))
+      : "--";
 
-    if (position.includes("حارس")) {
-      return [
-        { subject: t("report.radarSkills.focus"), A: getValue(scores, "التركيز") },
-        { subject: t("report.radarSkills.agility"), A: getValue(scores, "الرشاقة") },
-        { subject: t("report.radarSkills.strength"), A: getValue(scores, "القوة") },
-        { subject: t("report.radarSkills.leadership"), A: getValue(scores, "الشخصية والقيادة") },
-        { subject: t("report.radarSkills.decisionMaking"), A: getValue(scores, "اتخاذ القرار") },
-        { subject: t("report.radarSkills.footballIQ"), A: getValue(scores, "الذكاء الكروي") }
-      ];
-    }
+    const playerName =
+      playerData?.full_name ||
+      playerData?.name ||
+      t("ReportPage.playerInfoCard.player");
 
-    return [
-      { subject: t("report.radarSkills.skillPerformance"), A: getValue(scores, "الأداء المهاري") },
-      { subject: t("report.radarSkills.endurance"), A: getValue(scores, "التحمل") },
-      { subject: t("report.radarSkills.footballIQ"), A: getValue(scores, "الذكاء الكروي") },
-      { subject: t("report.radarSkills.speed"), A: getValue(scores, "السرعة") },
-      { subject: t("report.radarSkills.passing"), A: getValue(scores, "التمرير") },
-      { subject: t("report.radarSkills.shooting"), A: getValue(scores, "التصويب") }
-    ];
-  }, [currentEvaluation, t]);
+    const playerPosition =
+      currentEvaluation?.position ||
+      playerData?.position ||
+      "---";
+
+    if (loading) {
+      return (
+        <div className="radar-skills-card radar-loading">
+          {t("ReportPage.radarSkillsChart.loading")}
+        </div>
+      );
+    }
 
   return (
-    <div className="chart-card">
-      <h3>{t("report.radarSkills.title")}</h3>
-      {loading ? (
-        <div style={{ height: 300, display: "flex", alignItems: "center", justifyContent: "center", color: "#64748b", fontWeight: "600" }}>
-          {t("report.radarSkills.loading")}
+    <section
+      className={`radar-skills-card ${isRTL ? "is-rtl" : "is-ltr"}`}
+    >
+      {/* Player Header */}
+      <div className="fifa-player-header">
+        <div className="fifa-player-profile">
+          <div className="fifa-player-avatar">
+            <img
+              src={playerData?.avatar_url || "/assets/default-player.png"}
+              alt={playerName}
+              onError={(e) => {
+                e.currentTarget.src = "/assets/default-player.png";
+              }}
+            />
+          </div>
+
+          <div className="fifa-player-details">
+            <span className="fifa-player-label">
+              <FontAwesomeIcon icon={faFutbol} />
+              {t("ReportPage.radarSkillsChart.title")}
+            </span>
+
+            <h3>{playerName}</h3>
+
+            <span className="fifa-player-position">
+              {playerPosition}
+            </span>
+          </div>
         </div>
-      ) : (
-        <ResponsiveContainer width="100%" height={300}>
+
+        <div className="fifa-overall">
+          <span>OVR</span>
+          <strong>{overallRating}</strong>
+          <small>
+            <FontAwesomeIcon icon={faStar} />
+            {t("ReportPage.radarSkillsChart.overall")}
+          </small>
+        </div>
+      </div>
+
+      {/* Radar Chart */}
+      <div className="fifa-chart-area">
+        <div className="fifa-section-heading">
+          <span>
+            <FontAwesomeIcon icon={faBolt} />
+            {t("ReportPage.radarSkillsChart.skillsTitle")}
+          </span>
+        </div>
+
+        <div className="fifa-radar-wrapper">
           {radarInView ? (
-            <RadarChart cx="50%" cy="50%" outerRadius="70%" data={radarData}>
-              <PolarGrid stroke="#E9EDF7" />
-              <PolarAngleAxis dataKey="subject" tick={{ fontSize: 12 }} />
-              <Radar dataKey="A" stroke="#4318ff" fill="#4318ff" fillOpacity={0.2} strokeWidth={3} />
-              <Tooltip formatter={(value) => [value, t("report.radarSkills.score")]} />
-            </RadarChart>
+            <ResponsiveContainer width="100%" height="100%">
+              <RadarChart
+                cx="50%"
+                cy="50%"
+                outerRadius="72%"
+                data={radarData}
+              >
+                <PolarGrid
+                  stroke="var(--fifa-grid-color)"
+                  gridType="polygon"
+                />
+
+                <PolarAngleAxis
+                  dataKey="subject"
+                  tick={{
+                    fill: "var(--fifa-axis-color)",
+                    fontSize: 11,
+                    fontWeight: 600,
+                  }}
+                />
+
+                <Radar
+                  dataKey="A"
+                  stroke="#22c55e"
+                  fill="#22c55e"
+                  fillOpacity={0.25}
+                  strokeWidth={2.5}
+                  dot={{
+                    r: 3,
+                    fill: "#22c55e",
+                    stroke: "#fff",
+                    strokeWidth: 1,
+                  }}
+                />
+
+                <Tooltip
+                  formatter={(value) => [
+                    `${value}`,
+                    t("ReportPage.radarSkillsChart.rating"),
+                  ]}
+                />
+              </RadarChart>
+            </ResponsiveContainer>
           ) : (
-            <div style={{ height: 300 }} />
+            <div className="fifa-radar-placeholder" />
           )}
-        </ResponsiveContainer>
-      )}
-    </div>
+        </div>
+      </div>
+
+      {/* Skills Grid */}
+      <div className="fifa-skills-grid">
+        {radarData.map((skill) => (
+          <div className="fifa-skill-item" key={skill.key}>
+            <div className="fifa-skill-info">
+              <span>{skill.subject}</span>
+              <strong>{skill.A}</strong>
+            </div>
+
+            <div className="fifa-skill-track">
+              <div
+                className="fifa-skill-progress"
+                style={{
+                  width: `${Math.min(Math.max(skill.A, 0), 100)}%`,
+                }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 };
 

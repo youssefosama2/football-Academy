@@ -1,80 +1,11 @@
-/* =========================================
-   RESET
-========================================= */
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap');
-
-/* =========================================
-   DASHBOARD
-========================================= */
-
-.dashboard{
-  display: flex;
-  background: #f4f7fe;
-  overflow-x: hidden;
-}
-
-.main-content{
-  width: 100%;
-  padding: 25px;
-}
-
-@media(max-width:768px){
-
-  .main-content{
-    padding: 12px;
-  }
-
-}
-
-/* =========================================
-   GLOBAL CARDS
-========================================= */
-
-.dashboard-card,
-.stat-card{
-  background: #fff;
-  border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 5px 20px rgba(0,0,0,.05);
-}
-
-.dashboard-card{
-  height: 100%;
-}
-
-.section-title{
-  font-size: 16px;
-  font-weight: 800;
-  color: #1b2559;
-  margin-bottom: 20px;
-}
-
-/* =========================================
-   RESPONSIVE
-========================================= */
-
-@media(max-width:768px){
-
-  .dashboard-card,
-  .stat-card{
-    padding: 15px;
-  }
-
-  .section-title{
-    font-size: 14px;
-  }
-
-}
-
 /* =========================
    REPORT PAGE
 ========================= */
 
 .report-page{
-  padding: 20px 0;
+  padding: 25px;
   overflow-x: hidden;
 }
-
 /* =========================
    HEADER
 ========================= */

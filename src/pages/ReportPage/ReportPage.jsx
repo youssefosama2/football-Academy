@@ -45,31 +45,28 @@ function ReportContent() {
           <ReportActions />
           <PlayerInfoCard />
           <QuickStatsCards />
-          <div className="row g-3 mb-4">
-            <div className="col-lg-3" ref={radarRef}>
+          <div className="row g-3 mb-4 align-items-stretch">
+            <div className="col-lg-6" ref={radarRef}>
               <RadarSkillsChart radarInView={radarInView} />
             </div>
             <div className="col-lg-6" ref={performanceRef}>
               <PerformanceChart performanceInView={performanceInView} />
             </div>
-            <div className="col-lg-3" ref={compareRef}>
-              <ComparePlayersCard compareInView={compareInView} />
-            </div>
           </div>
           <div className="row g-3 mb-4">
-            <div className="col-lg-3">
-              <CoachNotesCard />
+            <div className="col-lg-3" ref={compareRef}>
+              <ComparePlayersCard compareInView={compareInView} />
             </div>
             <div className="col-lg-6" ref={evolutionRef}>
               <EvolutionPerformanceChart evolutionInView={evolutionInView} />
             </div>
             <div className="col-lg-3">
-              <OverallRatingCard />
-            </div>
-          </div>
+              <CoachNotesCard />
+            </div>        </div>
           <SkillsOverview />
           <EvaluationsTable />
         </div>
+
       </main>
     </div>
   );

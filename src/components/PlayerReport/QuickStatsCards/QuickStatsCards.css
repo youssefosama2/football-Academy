@@ -1,56 +1,484 @@
-/* =========================
-   STATS
-========================= */
+/* =========================================
+   PREMIUM STATISTICS CARDS
+========================================= */
 
-.stats-grid{
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-  gap: 18px;
-  margin-bottom: 20px;
+.stats-grid {
+  font-family: "Cairo", sans-serif;
 }
 
-.stat-card{
-  background: white;
-  border-radius: 22px;
-  padding: 20px;
+/* =========================================
+   MAIN CARD
+========================================= */
+
+.Quick-stat-card {
+  --stat-color: #16a34a;
+  --stat-soft: rgba(22, 163, 74, 0.10);
+
+  position: relative;
+  isolation: isolate;
+
   display: flex;
+  flex-direction: column;
+  align-items: stretch;
   justify-content: space-between;
-  align-items: center;
-  min-height: 120px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+
+  width: 100%;
+  min-width: 0;
+  min-height: 180px;
+
+  padding: 20px;
+
+  background: #ffffff;
+  color: #1e293b;
+
+  border: 1px solid #e9edf3;
+  border-radius: 18px;
+
+  direction: inherit;
+  text-align: start;
+
+  overflow: hidden;
+
+  font-family: "Cairo", sans-serif;
+
+  box-shadow:
+    0 2px 8px rgba(15, 23, 42, 0.025),
+    0 8px 24px rgba(15, 23, 42, 0.025);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease;
 }
 
-.stat-card p{
-  color: #A3AED0;
-  margin-bottom: 10px;
+/* =========================================
+   CARD COLORS
+========================================= */
+
+.stat-card-color-1 {
+  --stat-color: #16a34a;
+  --stat-soft: rgba(22, 163, 74, 0.10);
 }
 
-.stat-card h2{
-  color: #1B2559;
-  margin-bottom: 5px;
-  font-size: 28px;
+.stat-card-color-2 {
+  --stat-color: #ef4444;
+  --stat-soft: rgba(239, 68, 68, 0.10);
 }
 
-.green-text{
-  color: #22c55e !important;
-}
-.red-text{
-  color: #EF4444 !important;
+.stat-card-color-3 {
+  --stat-color: #6366f1;
+  --stat-soft: rgba(99, 102, 241, 0.10);
 }
 
-.stat-card span{
-  color: #A3AED0;
+.stat-card-color-4 {
+  --stat-color: #d97706;
+  --stat-soft: rgba(217, 119, 6, 0.11);
+}
+
+/* =========================================
+   CARD HEADER
+========================================= */
+
+.Quick-stat-card > div:first-child {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* =========================================
+   CARD TITLE
+========================================= */
+
+.Quick-stat-card p {
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+
+  margin: 0 0 12px;
+
+  color: #64748b;
+
   font-size: 13px;
+  font-weight: 700;
+  line-height: 1.7;
+
+  text-align: start;
+
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
-.stat-icon{
-  width: 55px;
-  height: 55px;
-  border-radius: 16px;
-  background: #eef4ff;
+/* =========================================
+   CARD VALUE
+========================================= */
+
+.Quick-stat-card h2 {
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+
+  margin: 0;
+
+  color: var(--stat-color);
+
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1.3;
+
+  text-align: start;
+  letter-spacing: -0.7px;
+
+  overflow-wrap: anywhere;
+
+  transition: color 0.25s ease;
+}
+
+/* =========================================
+   CARD DESCRIPTION
+========================================= */
+
+.Quick-stat-card span {
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+
+  margin-top: 8px;
+
+  color: #94a3b8;
+
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.7;
+
+  text-align: start;
+
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+/* =========================================
+   STAT ICON
+========================================= */
+
+.stat-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #2563ff;
-  font-size: 20px;
+
+  width: 44px;
+  height: 44px;
+
+  flex-shrink: 0;
+
+  margin-bottom: 13px;
+
+  background: var(--stat-soft);
+  color: var(--stat-color);
+
+  border-radius: 13px;
+
+  font-size: 18px;
+
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease;
+}
+
+/* =========================================
+   DECORATIVE BACKGROUND
+========================================= */
+
+.Quick-stat-card::after {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  inset-inline-end: -35px;
+  bottom: -50px;
+
+  width: 125px;
+  height: 125px;
+
+  background: var(--stat-soft);
+
+  border-radius: 50%;
+
+  opacity: 0.7;
+
+  pointer-events: none;
+
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+/* =========================================
+   RTL / LTR
+========================================= */
+
+.Quick-stat-card {
+  direction: inherit;
+  text-align: start;
+}
+
+.Quick-stat-card > div:first-child,
+.Quick-stat-card p,
+.Quick-stat-card h2,
+.Quick-stat-card span {
+  direction: inherit;
+  text-align: start;
+}
+
+/* =========================================
+   DARK MODE
+========================================= */
+
+[data-theme="dark"] .Quick-stat-card {
+  background: #1e293b;
+  color: #f8fafc;
+
+  border-color: #334155;
+
+  box-shadow:
+    0 3px 10px rgba(0, 0, 0, 0.12),
+    0 8px 22px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .Quick-stat-card p {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .Quick-stat-card h2 {
+  color: var(--stat-color);
+}
+
+[data-theme="dark"] .Quick-stat-card span {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .stat-icon {
+  background: var(--stat-soft);
+  color: var(--stat-color);
+}
+
+/* =========================================
+   HOVER
+========================================= */
+
+@media (hover: hover) {
+
+  .Quick-stat-card:hover {
+    transform: translateY(-4px);
+
+    border-color: color-mix(
+      in srgb,
+      var(--stat-color) 30%,
+      #e9edf3
+    );
+
+    box-shadow:
+      0 8px 18px rgba(15, 23, 42, 0.045),
+      0 16px 35px rgba(15, 23, 42, 0.055);
+  }
+
+  .Quick-stat-card:hover .stat-icon {
+    transform: translateY(-2px);
+  }
+
+  .Quick-stat-card:hover::after {
+    transform: scale(1.2);
+    opacity: 0.95;
+  }
+
+  [data-theme="dark"] .Quick-stat-card:hover {
+    border-color: color-mix(
+      in srgb,
+      var(--stat-color) 45%,
+      #334155
+    );
+
+    box-shadow:
+      0 8px 22px rgba(0, 0, 0, 0.18),
+      0 16px 35px rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* =========================================
+   LOADING
+========================================= */
+
+.stats-loading {
+  padding: 40px;
+
+  color: #64748b;
+
+  text-align: center;
+
+  font-family: "Cairo", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+
+  transition: color 0.25s ease;
+}
+
+[data-theme="dark"] .stats-loading {
+  color: #94a3b8;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 991.98px) {
+
+  .Quick-stat-card {
+    min-height: 165px;
+    padding: 17px;
+    border-radius: 16px;
+  }
+
+  .stat-icon {
+    width: 41px;
+    height: 41px;
+    font-size: 17px;
+    border-radius: 12px;
+
+    margin-bottom: 11px;
+  }
+
+  .Quick-stat-card p {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+  .Quick-stat-card h2 {
+    font-size: 28px;
+  }
+
+  .Quick-stat-card span {
+    font-size: 11px;
+    margin-top: 6px;
+  }
+}
+
+/* =========================================
+   MOBILE - TWO COLUMNS
+========================================= */
+
+@media (max-width: 575.98px) {
+
+  .stats-grid {
+    --bs-gutter-x: 10px;
+    --bs-gutter-y: 10px;
+  }
+
+  .Quick-stat-card {
+    min-height: 155px;
+
+    padding: 13px 12px;
+
+    border-radius: 15px;
+  }
+
+  .stat-icon {
+    width: 36px;
+    height: 36px;
+
+    font-size: 15px;
+
+    border-radius: 11px;
+
+    margin-bottom: 10px;
+  }
+
+  .Quick-stat-card p {
+    font-size: 11px;
+    line-height: 1.65;
+
+    margin-bottom: 9px;
+  }
+
+  .Quick-stat-card h2 {
+    font-size: 25px;
+    line-height: 1.3;
+  }
+
+  .Quick-stat-card span {
+    font-size: 10px;
+    line-height: 1.6;
+
+    margin-top: 5px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 360px) {
+
+  .stats-grid {
+    --bs-gutter-x: 8px;
+    --bs-gutter-y: 8px;
+  }
+
+  .Quick-stat-card {
+    min-height: 145px;
+
+    padding: 11px 9px;
+
+    border-radius: 13px;
+  }
+
+  .stat-icon {
+    width: 32px;
+    height: 32px;
+
+    font-size: 13px;
+
+    border-radius: 9px;
+
+    margin-bottom: 8px;
+  }
+
+  .Quick-stat-card p {
+    font-size: 10px;
+    margin-bottom: 8px;
+  }
+
+  .Quick-stat-card h2 {
+    font-size: 22px;
+  }
+
+  .Quick-stat-card span {
+    font-size: 9px;
+    margin-top: 5px;
+  }
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .Quick-stat-card,
+  .Quick-stat-card::after,
+  .stat-icon,
+  .Quick-stat-card h2 {
+    transition: none;
+  }
+
+  .Quick-stat-card:hover {
+    transform: none;
+  }
 }
